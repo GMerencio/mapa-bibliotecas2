@@ -13,14 +13,7 @@ export const Mapa = () => {
   		<TileLayer
     		attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
     		url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${TOKEN_MAPBOX}`}
-  		/>
-  		
-  		<Popup position={[-8.5, -63.2]}>
-  			<div>
-  				<p>Texto de teste para o plugin de Libras.</p>
-  			</div>
-  		</Popup>
-  		
+  		/>  		
   		{
   			/* Inserir Markers e Popups no mapa baseado
   			na latitude e longitude das IES. */

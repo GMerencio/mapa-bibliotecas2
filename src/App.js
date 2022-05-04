@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import { Mapa } from './pages/Mapa';
+import { Mapa } from './components/Mapa';
 
 function App() {
   return (
