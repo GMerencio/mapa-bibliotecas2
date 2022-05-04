@@ -7,12 +7,19 @@ import { censo } from './censo';
 // Token de acesso do Mapbox
 const TOKEN_MAPBOX = 'pk.eyJ1IjoiZ21lcmVuY2lvIiwiYSI6ImNsMjgyYTVxODA1OXUzZG56emppeHFkd2wifQ.5NMbrQod0tTYWB0CnqqEmA';
 
+const DEFAULT_ZOOM = 4;
+const MAX_ZOOM = 14;
+
 export const Mapa = () => {  
   return (	
-  	<MapContainer center={[-14.2350, -51.9253]} zoom={4} scrollWheelZoom={false}>
+  	<MapContainer center={[-14.2350, -51.9253]} zoom={DEFAULT_ZOOM} scrollWheelZoom={true} maxBounds={[[5.404952, -74.460703], [-34.850406, -34.082082]]}>
   		<TileLayer
     		attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
     		url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${TOKEN_MAPBOX}`}
+    		tileSize={512}
+    		zoomOffset={-1}
+    		minZoom={DEFAULT_ZOOM}
+    		maxZoom={MAX_ZOOM}
   		/>  		
   		{
   			/* Inserir Markers e Popups no mapa baseado
