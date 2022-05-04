@@ -2,6 +2,10 @@ import React, { useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Stack from '@mui/material/Stack';
+import Container from '@mui/material/Container';
 
 import './style.css';
 import { censo } from './censo';
@@ -12,7 +16,7 @@ const TOKEN_MAPBOX = 'pk.eyJ1IjoiZ21lcmVuY2lvIiwiYSI6ImNsMjgyYTVxODA1OXUzZG56emp
 const DEFAULT_ZOOM = 4;
 const MAX_ZOOM = 14;
 
-export const Mapa = () => {
+export const Mapa = () => {  
   // Popup aberto no momento
   const popupRef = useRef(null);
   
@@ -21,7 +25,46 @@ export const Mapa = () => {
   	popupRef.current._closeButton.click();
   };
 
-  return (  		
+  return (
+    <div>
+    <Card variant="outlined">
+    	<CardContent>
+    		<Stack direction="row">
+    			<Container>
+    				<p>Zoom:</p>
+    				<ButtonGroup variant="contained">
+    					<Button>Aumentar zoom</Button>
+    					<Button>Diminuir zoom</Button>
+    				</ButtonGroup>
+    			</Container>
+    			
+    			<Container>
+    				<p>Contraste: </p>
+    				<ButtonGroup variant="contained">
+    					<Button>Aumentar contraste</Button>
+    					<Button>Diminuir contraste</Button>
+    				</ButtonGroup>
+    			</Container>
+    			
+    			<Container>
+    				<p>Brilho: </p>
+    				<ButtonGroup variant="contained">
+    					<Button>Aumentar brilho</Button>
+    					<Button>Diminuir brilho</Button>
+    				</ButtonGroup>
+    			</Container>
+    			
+    			<Container>
+    				<p>Esquema de cores: </p>
+    				<ButtonGroup variant="contained">
+    					<Button>Padrão</Button>
+    					<Button>Preto e branco</Button>
+    				</ButtonGroup>
+    			</Container>
+    		</Stack>
+    	</CardContent>
+    </Card>
+    
   	<MapContainer center={[-14.2350, -51.9253]} zoom={DEFAULT_ZOOM} scrollWheelZoom={true}>
   		<TileLayer
     		attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
@@ -65,5 +108,6 @@ export const Mapa = () => {
   			))
   		}
 	</MapContainer>
+	</div>
   );
 };
