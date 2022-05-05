@@ -20,9 +20,23 @@ export const Mapa = () => {
   // Popup aberto no momento
   const popupRef = useRef(null);
   
+  // Objeto referente ao mapa
+  const mapRef = useRef(null);
+  
   // Fechar popup aberto no momento
   const closeCurrentPopup = () => {
   	popupRef.current._closeButton.click();
+  };
+  
+  /* Aumentar ou diminuir zoom em uma unidade. Se increase = true,
+  aumentar; se increase = false, diminuir. */
+  const changeZoom = (increase) => {
+  	if (increase) {
+  		mapRef.current.zoomIn(1);
+  	}
+  	else if (!increase) {
+  		mapRef.current.zoomOut(1);
+  	}
   };
 
   return (
@@ -33,8 +47,8 @@ export const Mapa = () => {
     			<Container>
     				<p>Zoom:</p>
     				<ButtonGroup variant="contained">
-    					<Button>Aumentar zoom</Button>
-    					<Button>Diminuir zoom</Button>
+    					<Button onClick={() => { changeZoom(true); }}>Aumentar zoom</Button>
+    					<Button onClick={() => { changeZoom(false); }}>Diminuir zoom</Button>
     				</ButtonGroup>
     			</Container>
     			
@@ -65,7 +79,7 @@ export const Mapa = () => {
     	</CardContent>
     </Card>
     
-  	<MapContainer center={[-14.2350, -51.9253]} zoom={DEFAULT_ZOOM} scrollWheelZoom={true}>
+  	<MapContainer center={[-14.2350, -51.9253]} zoom={DEFAULT_ZOOM} scrollWheelZoom={true} zoomControl={false} ref={mapRef}>
   		<TileLayer
     		attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
     		url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${TOKEN_MAPBOX}`}
