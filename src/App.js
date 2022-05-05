@@ -9,7 +9,6 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Mapa />} />
-          <Route path="/mapa-bibliotecas" element={<Mapa />} />
         </Routes>
       </Router>
     </div>
