@@ -23,12 +23,17 @@ export const Mapa = () => {
   // Objeto referente ao mapa
   const mapRef = useRef(null);
   
-  // Fechar popup aberto no momento
+  // Variáveis que compõem os filtros aplicados ao mapa
+  let contrast = 100;
+  let brightness = 100;
+  let grayscale = 0;
+  
+  // Fecha popup aberto no momento
   const closeCurrentPopup = () => {
   	popupRef.current._closeButton.click();
   };
   
-  /* Aumentar ou diminuir zoom em uma unidade. Se increase = true,
+  /* Aumenta ou diminuir zoom em uma unidade. Se increase = true,
   aumentar; se increase = false, diminuir. */
   const changeZoom = (increase) => {
   	if (increase) {
@@ -37,6 +42,35 @@ export const Mapa = () => {
   	else if (!increase) {
   		mapRef.current.zoomOut(1);
   	}
+  };
+  
+  /* Aumenta ou diminuir o contraste em 10%. Se increase = true,
+  aumentar; se increase = false, diminuir. */
+  const changeContrast = (increase) => {
+  	if (increase) {
+  		contrast += 10;
+  	}
+  	else if (!increase) {
+  		contrast -= 10;
+  	}
+  	applyFilters();
+  };
+  
+  /* Aumenta ou diminuir o brilho em 10%. Se increase = true,
+  aumentar; se increase = false, diminuir. */
+  const changeBrightness = (increase) => {
+  	if (increase) {
+  		brightness += 10;
+  	}
+  	else if (!increase) {
+  		brightness -= 10;
+  	}
+  	applyFilters();
+  };
+  
+  /* Aplica os filtros atuais ao mapa. */
+  const applyFilters = () => {
+  	mapRef.current._container.style.filter = `contrast(${contrast}%) brightness(${brightness}%) grayscale(${grayscale}%)`;
   };
 
   return (
@@ -55,24 +89,24 @@ export const Mapa = () => {
     			<Container>
     				<p>Contraste: </p>
     				<ButtonGroup variant="contained">
-    					<Button>Aumentar contraste</Button>
-    					<Button>Diminuir contraste</Button>
+    					<Button onClick={() => { changeContrast(true); }}>Aumentar contraste</Button>
+    					<Button onClick={() => { changeContrast(false); }}>Diminuir contraste</Button>
     				</ButtonGroup>
     			</Container>
     			
     			<Container>
     				<p>Brilho: </p>
     				<ButtonGroup variant="contained">
-    					<Button>Aumentar brilho</Button>
-    					<Button>Diminuir brilho</Button>
+    					<Button onClick={() => { changeBrightness(true); }}>Aumentar brilho</Button>
+    					<Button onClick={() => { changeBrightness(false); }}>Diminuir brilho</Button>
     				</ButtonGroup>
     			</Container>
     			
     			<Container>
     				<p>Esquema de cores: </p>
     				<ButtonGroup variant="contained">
-    					<Button>Padrão</Button>
-    					<Button>Preto e branco</Button>
+    					<Button onClick={() => { grayscale = 0; applyFilters(); }}>Padrão</Button>
+    					<Button onClick={() => { grayscale = 100; applyFilters(); }}>Preto e branco</Button>
     				</ButtonGroup>
     			</Container>
     		</Stack>
