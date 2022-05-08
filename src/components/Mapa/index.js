@@ -1,11 +1,9 @@
-import React, { useRef } from 'react';
+/* Componente do mapa em si. */
+
+import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Stack from '@mui/material/Stack';
-import Container from '@mui/material/Container';
 
 import './style.css';
 import { censo } from './censo';
@@ -16,104 +14,32 @@ const TOKEN_MAPBOX = 'pk.eyJ1IjoiZ21lcmVuY2lvIiwiYSI6ImNsMjgyYTVxODA1OXUzZG56emp
 const DEFAULT_ZOOM = 4;
 const MAX_ZOOM = 14;
 
-export const Mapa = () => {  
-  // Popup aberto no momento
-  const popupRef = useRef(null);
-  
-  // Objeto referente ao mapa
-  const mapRef = useRef(null);
-  
-  // Variáveis que compõem os filtros aplicados ao mapa
-  let contrast = 100;
-  let brightness = 100;
-  let grayscale = 0;
+export class Mapa extends React.Component {
+  constructor(props) {
+  	super(props);
+  	
+  	// Objetos de referência ao mapa e ao Popup aberto no momento
+  	this.mapRef = React.createRef();
+  	this.popupRef = React.createRef();
+  }
   
   // Fecha popup aberto no momento
-  const closeCurrentPopup = () => {
-  	popupRef.current._closeButton.click();
-  };
+  closeCurrentPopup() {
+  	this.popupRef.current._closeButton.click();
+  }
   
-  /* Aumenta ou diminuir zoom em uma unidade. Se increase = true,
-  aumentar; se increase = false, diminuir. */
-  const changeZoom = (increase) => {
-  	if (increase) {
-  		mapRef.current.zoomIn(1);
-  	}
-  	else if (!increase) {
-  		mapRef.current.zoomOut(1);
-  	}
-  };
-  
-  /* Aumenta ou diminuir o contraste em 10%. Se increase = true,
-  aumentar; se increase = false, diminuir. */
-  const changeContrast = (increase) => {
-  	if (increase) {
-  		contrast += 10;
-  	}
-  	else if (!increase) {
-  		contrast -= 10;
-  	}
-  	applyFilters();
-  };
-  
-  /* Aumenta ou diminuir o brilho em 10%. Se increase = true,
-  aumentar; se increase = false, diminuir. */
-  const changeBrightness = (increase) => {
-  	if (increase) {
-  		brightness += 10;
-  	}
-  	else if (!increase) {
-  		brightness -= 10;
-  	}
-  	applyFilters();
-  };
-  
-  /* Aplica os filtros atuais ao mapa. */
-  const applyFilters = () => {
-  	mapRef.current._container.style.filter = `contrast(${contrast}%) brightness(${brightness}%) grayscale(${grayscale}%)`;
-  };
+  componentDidMount() {
+  	this.props.updateMap(this.mapRef);
+  }
 
-  return (
-    <div>
-    <Card variant="outlined">
-    	<CardContent>
-    		<Stack direction="row">
-    			<Container>
-    				<p>Zoom:</p>
-    				<ButtonGroup variant="contained">
-    					<Button onClick={() => { changeZoom(true); }}>Aumentar zoom</Button>
-    					<Button onClick={() => { changeZoom(false); }}>Diminuir zoom</Button>
-    				</ButtonGroup>
-    			</Container>
-    			
-    			<Container>
-    				<p>Contraste: </p>
-    				<ButtonGroup variant="contained">
-    					<Button onClick={() => { changeContrast(true); }}>Aumentar contraste</Button>
-    					<Button onClick={() => { changeContrast(false); }}>Diminuir contraste</Button>
-    				</ButtonGroup>
-    			</Container>
-    			
-    			<Container>
-    				<p>Brilho: </p>
-    				<ButtonGroup variant="contained">
-    					<Button onClick={() => { changeBrightness(true); }}>Aumentar brilho</Button>
-    					<Button onClick={() => { changeBrightness(false); }}>Diminuir brilho</Button>
-    				</ButtonGroup>
-    			</Container>
-    			
-    			<Container>
-    				<p>Esquema de cores: </p>
-    				<ButtonGroup variant="contained">
-    					<Button onClick={() => { grayscale = 0; applyFilters(); }}>Padrão</Button>
-    					<Button onClick={() => { grayscale = 100; applyFilters(); }}>Preto e branco</Button>
-    				</ButtonGroup>
-    			</Container>
-    		</Stack>
-    	</CardContent>
-    </Card>
-    
-  	<MapContainer center={[-14.2350, -51.9253]} zoom={DEFAULT_ZOOM} scrollWheelZoom={true} zoomControl={false} ref={mapRef}>
+  render() {
+  	return (
+  	  <MapContainer
+  	   center={[-14.2350, -51.9253]}
+  	   zoom={DEFAULT_ZOOM}
+  	   scrollWheelZoom={true}
+  	   zoomControl={false}
+  	   ref={this.mapRef}>
   		<TileLayer
     		attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
     		url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${TOKEN_MAPBOX}`}
@@ -132,7 +58,9 @@ export const Mapa = () => {
   					alt={ies['NO_IES']}
   					keyboard={true}
   				>
-  					<Popup ref={popupRef} position={[ies.lat, ies.long]} maxHeight={400}>
+  					<Popup
+  					 ref={this.popupRef}
+  					 position={[ies.lat, ies.long]} maxHeight={400}>
   						<div>
   							<h2>{ies['NO_IES']}</h2>
   							<p>Endereço: {ies['end_completo_y']}</p>
@@ -148,14 +76,14 @@ export const Mapa = () => {
   							<p>(Informações do censo de {ies['NU_ANO_CENSO']})</p>
   							<ButtonGroup orientation="vertical">
   								<Button variant="contained">Ver cadastro da instituição</Button>
-  								<Button variant="contained" color="error" onClick={() => { closeCurrentPopup(); }}>Fechar</Button>
+  								<Button variant="contained" color="error" onClick={() => { this.closeCurrentPopup(); }}>Fechar</Button>
   							</ButtonGroup>
   						</div>
   					</Popup>
   				</Marker>
   			))
   		}
-	</MapContainer>
-	</div>
-  );
+	  </MapContainer>
+    );
+  }
 };

@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import { Mapa } from './components/Mapa';
+import { PaginaMapa } from './components/PaginaMapa';
 
 function App() {
   return (
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={<Mapa />} />
+          <Route path="/" element={<PaginaMapa />} />
         </Routes>
       </Router>
     </div>
