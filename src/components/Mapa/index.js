@@ -41,6 +41,11 @@ export class Mapa extends React.Component {
   	// Objetos de referência ao mapa e seus elementos
   	this.mapRef = React.createRef();
   	this.popupRef = React.createRef();
+  	this.previousCenter = null;
+  	
+  	// Binds necessários para reter o escopo da classe
+  	this.handlePopupOpen = this.handlePopupOpen.bind(this);
+  	this.handlePopupClose = this.handlePopupClose.bind(this);
   }
   
   // Fecha o Popup aberto no momento
@@ -51,6 +56,8 @@ export class Mapa extends React.Component {
   /* Coloca o foco no Popup aberto e adiciona listeners adequados
   para fins de acessibilidade. */
   handlePopupOpen(e) {
+  	this.previousCenter = e.popup._source._map.getCenter();
+  	
   	e.popup._container.tabIndex = "0";
   	e.popup._container.focus();
   	e.popup._container.onkeydown = (ke) => {
@@ -60,9 +67,12 @@ export class Mapa extends React.Component {
   	};
   }
   
-  // Devolve o foco ao Marker após fechar o Popup
+  /* Devolve o foco ao Marker após fechar o Popup e recentraliza
+  o mapa. */
   handlePopupClose(e) {
   	e.popup._source._icon.focus();
+  	e.popup._source._map.panTo(this.previousCenter);
+  	this.previousCenter = null;
   }
   
   componentDidMount() {
@@ -103,7 +113,6 @@ export class Mapa extends React.Component {
   				>
   					<Popup
   					 ref={this.popupRef}
-  					 position={[ies.lat, ies.long]}
   					 maxHeight={400}
   					>
   						<div>

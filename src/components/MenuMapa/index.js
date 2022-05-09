@@ -12,7 +12,14 @@ export class MenuMapa extends React.Component {
   render() {
     return (
     	<Card variant="outlined">
-    		<CardContent>
+    		<CardContent
+    		  sx={{
+    		    padding: 0,
+    		    '&:last-child': {
+    		      paddingBottom: '10px'
+    		    }
+    		  }}
+    		>
     			<Stack direction="row">
     				<Container>
     					<p>Zoom:</p>
