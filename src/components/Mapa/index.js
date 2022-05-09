@@ -1,16 +1,25 @@
 /* Componente do mapa em si. */
 
+// Componentes importados
 import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
+// CSS, dados e scripts
 import './style.css';
 import { censo } from './censo';
+
+// Imagens
+import markerIcon from './marker-icon.png';
+import markerShadow from './marker-shadow.png';
+import markerIcon2x from './marker-icon-2x.png';
 
 // Token de acesso do Mapbox
 const TOKEN_MAPBOX = 'pk.eyJ1IjoiZ21lcmVuY2lvIiwiYSI6ImNsMjgyYTVxODA1OXUzZG56emppeHFkd2wifQ.5NMbrQod0tTYWB0CnqqEmA';
 
+// Variáveis de configuração
 const DEFAULT_ZOOM = 4;
 const MAX_ZOOM = 14;
 
@@ -18,7 +27,18 @@ export class Mapa extends React.Component {
   constructor(props) {
   	super(props);
   	
-  	// Objetos de referência ao mapa e ao Popup aberto no momento
+  	this.icon = new L.Icon({
+  		iconUrl: markerIcon,
+		iconRetinaUrl: markerIcon2x,
+		shadowUrl: markerShadow,
+		iconSize: [25, 41],
+		iconAnchor:  [12, 41],
+		popupAnchor: [1, -34],
+		tooltipAnchor: [16, -28],
+		shadowSize:  [41, 41]
+  	});
+  	
+  	// Objetos de referência ao mapa e seus elementos
   	this.mapRef = React.createRef();
   	this.popupRef = React.createRef();
   }
@@ -29,7 +49,7 @@ export class Mapa extends React.Component {
   }
   
   componentDidMount() {
-  	this.props.updateMap(this.mapRef);
+  	this.props.updateMap(this.mapRef, this.markerRef);
   }
 
   render() {
@@ -57,10 +77,12 @@ export class Mapa extends React.Component {
   					position={[ies.lat, ies.long]}
   					alt={ies['NO_IES']}
   					keyboard={true}
+  					icon={this.icon}
   				>
   					<Popup
   					 ref={this.popupRef}
-  					 position={[ies.lat, ies.long]} maxHeight={400}>
+  					 position={[ies.lat, ies.long]}
+  					 maxHeight={400}>
   						<div>
   							<h2>{ies['NO_IES']}</h2>
   							<p>Endereço: {ies['end_completo_y']}</p>

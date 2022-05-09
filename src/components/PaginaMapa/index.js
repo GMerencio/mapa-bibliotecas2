@@ -92,9 +92,11 @@ export class PaginaMapa extends React.Component {
   		}
   	}
   	
-  	/* Atualiza o objeto de referência ao mapa */
+  	/* Atualiza os objetos de referência ao mapa */
   	updateMap(newMap) {
-  		this.setState({mapRef: newMap});
+  		this.setState({
+  			mapRef: newMap
+  		});
   	}
   	
   	/* Aplica os filtros atuais ao mapa. */
