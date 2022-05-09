@@ -43,9 +43,26 @@ export class Mapa extends React.Component {
   	this.popupRef = React.createRef();
   }
   
-  // Fecha popup aberto no momento
+  // Fecha o Popup aberto no momento
   closeCurrentPopup() {
   	this.popupRef.current._closeButton.click();
+  }
+  
+  /* Coloca o foco no Popup aberto e adiciona listeners adequados
+  para fins de acessibilidade. */
+  handlePopupOpen(e) {
+  	e.popup._container.tabIndex = "0";
+  	e.popup._container.focus();
+  	e.popup._container.onkeydown = (ke) => {
+  		if(ke.code === 'Escape') {
+  			e.popup._closeButton.click();
+  		}
+  	};
+  }
+  
+  // Devolve o foco ao Marker após fechar o Popup
+  handlePopupClose(e) {
+  	e.popup._source._icon.focus();
   }
   
   componentDidMount() {
@@ -59,7 +76,8 @@ export class Mapa extends React.Component {
   	   zoom={DEFAULT_ZOOM}
   	   scrollWheelZoom={true}
   	   zoomControl={false}
-  	   ref={this.mapRef}>
+  	   ref={this.mapRef}
+  	  >
   		<TileLayer
     		attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
     		url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${TOKEN_MAPBOX}`}
@@ -78,24 +96,29 @@ export class Mapa extends React.Component {
   					alt={ies['NO_IES']}
   					keyboard={true}
   					icon={this.icon}
+  					eventHandlers={{
+  						popupopen: this.handlePopupOpen,
+  						popupclose: this.handlePopupClose
+  	   				}}				
   				>
   					<Popup
   					 ref={this.popupRef}
   					 position={[ies.lat, ies.long]}
-  					 maxHeight={400}>
+  					 maxHeight={400}
+  					>
   						<div>
   							<h2>{ies['NO_IES']}</h2>
-  							<p>Endereço: {ies['end_completo_y']}</p>
-  							<p>Quantidade de livros eletrônicos: {ies['QT_LIVRO_ELETRONICO']}</p>
-  							<p>Quantidade de periódicos eletrônicos: {ies['QT_PERIODICO_ELETRONICO']}</p>
-  							<p>Tem acesso ao portal Capes de periódicos? {ies['IN_ACESSO_PORTAL_CAPES'] === '0'? 'Não' : 'Sim'}</p>
-  							<p>Tem acesso a outras bases de dados licenciadas ou compradas? {ies['IN_ACESSO_OUTRAS_BASES'] === '0'? 'Não' : 'Sim'}</p>
-  							<p>Assina outras bases de dados licenciadas ou compradas? {ies['IN_ASSINA_OUTRA_BASE'] === '0'? 'Não' : 'Sim'}</p>
-  							<p>Tem catálogo online? {ies['IN_CATALOGO_ONLINE'] === '0'? 'Não' : 'Sim'}</p>
-  							<p>Oferece serviços pela internet? {ies['IN_SERVICO_INTERNET'] === '0'? 'Não' : 'Sim'}</p>
-  							<p>Busca integrada? {ies['IN_BUSCA_INTEGRADA'] === '0'? 'Não' : 'Sim'}</p>
-  							<p>Biblioteca participa de redes sociais? {ies['IN_PARTICIPA_REDE_SOCIAL'] === '0'? 'Não' : 'Sim'}</p>
-  							<p>(Informações do censo de {ies['NU_ANO_CENSO']})</p>
+  							<p tabIndex="0">Endereço: {ies['end_completo_y']}</p>
+  							<p tabIndex="0">Quantidade de livros eletrônicos: {ies['QT_LIVRO_ELETRONICO']}</p>
+  							<p tabIndex="0">Quantidade de periódicos eletrônicos: {ies['QT_PERIODICO_ELETRONICO']}</p>
+  							<p tabIndex="0">Tem acesso ao portal Capes de periódicos? {ies['IN_ACESSO_PORTAL_CAPES'] === '0'? 'Não' : 'Sim'}</p>
+  							<p tabIndex="0">Tem acesso a outras bases de dados licenciadas ou compradas? {ies['IN_ACESSO_OUTRAS_BASES'] === '0'? 'Não' : 'Sim'}</p>
+  							<p tabIndex="0">Assina outras bases de dados licenciadas ou compradas? {ies['IN_ASSINA_OUTRA_BASE'] === '0'? 'Não' : 'Sim'}</p>
+  							<p tabIndex="0">Tem catálogo online? {ies['IN_CATALOGO_ONLINE'] === '0'? 'Não' : 'Sim'}</p>
+  							<p tabIndex="0">Oferece serviços pela internet? {ies['IN_SERVICO_INTERNET'] === '0'? 'Não' : 'Sim'}</p>
+  							<p tabIndex="0">Busca integrada? {ies['IN_BUSCA_INTEGRADA'] === '0'? 'Não' : 'Sim'}</p>
+  							<p tabIndex="0">Biblioteca participa de redes sociais? {ies['IN_PARTICIPA_REDE_SOCIAL'] === '0'? 'Não' : 'Sim'}</p>
+  							<p tabIndex="0">(Informações do censo de {ies['NU_ANO_CENSO']})</p>
   							<ButtonGroup orientation="vertical">
   								<Button variant="contained">Ver cadastro da instituição</Button>
   								<Button variant="contained" color="error" onClick={() => { this.closeCurrentPopup(); }}>Fechar</Button>
