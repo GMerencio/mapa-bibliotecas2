@@ -60,9 +60,12 @@ export class Mapa extends React.Component {
   handlePopupOpen(e) {
     this.previousCenter = e.popup._source._map.getCenter();
 
-    e.popup._container.tabIndex = "-1";
-    // e.popup._container.focus();
-    e.className.Popup.focus();
+    // e.popup._container.tabIndex = "-1";
+    // e.className.Popup.focus();
+    
+    e.popup._container.tabIndex = "0";
+    e.popup._container.focus();
+    
     e.popup._container.onkeydown = (key) => {
       if (key.code === "Escape") {
         e.popup._closeButton.click();
