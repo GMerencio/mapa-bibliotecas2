@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { PaginaMapa } from './components/PaginaMapa';
+import PaginaIes from './components/PaginaIes';
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<PaginaMapa />} />
+          <Route path="/ies/:id" element={<PaginaIes />} />
         </Routes>
       </Router>
     </div>

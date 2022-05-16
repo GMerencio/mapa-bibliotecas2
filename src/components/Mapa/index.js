@@ -165,7 +165,15 @@ export class Mapa extends React.Component {
                     (Informações do censo de {ies["NU_ANO_CENSO"]})
                   </p>
                   <ButtonGroup orientation="vertical">
-                    <Button variant="contained">
+                    <Button
+                     variant="contained"
+                     href={`/ies/${ies["NO_IES"]}`}
+                     sx={{
+                     	'& a': {
+                     		color: "#fff",
+                     	},
+                     }}
+                    >
                       Ver cadastro da instituição
                     </Button>
                     <Button
