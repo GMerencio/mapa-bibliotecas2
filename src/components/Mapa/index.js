@@ -48,6 +48,15 @@ export class Mapa extends React.Component {
     // Binds necessários para reter o escopo da classe
     this.handlePopupOpen = this.handlePopupOpen.bind(this);
     this.handlePopupClose = this.handlePopupClose.bind(this);
+        
+    // Restaurar estado do mapa da session storage, caso haja
+    const prevState = window.sessionStorage.getItem('state');
+    this.state = JSON.parse(prevState) || {
+    	center: null,
+    	zoom: null,
+    	popup: null
+    };
+    
   }
 
   // Fecha o Popup aberto no momento
@@ -82,8 +91,28 @@ export class Mapa extends React.Component {
   }
 
   componentDidMount() {
+  	// Restaurar o estado do mapa, caso a informação tenha sido salva
+  	if (this.state.zoom)
+  		this.mapRef.zoom(this.state.zoom);
+  	if (this.state.center)
+  		this.mapRef.panTo(this.state.center);
+  	if (this.state.popup)
+  		this.mapRef.openPopup(this.state.popup);
+  
     this.props.updateMap(this.mapRef, this.markerRef);
   }
+  
+  // Antes de sair do mapa, salvar o estado
+  /*componentWillUnmount() {
+  	console.log(this.mapRef);
+  	const newState = {
+  		center: JSON.stringify(this.mapRef.getCenter()),
+  		zoom: this.mapRef.getZoom(),
+  		popup: this.popupRef ? this.popupRef : null
+  	}
+  	console.log(newState);
+  	window.sessionStorage.setItem('state', newState);
+  }*/
 
   render() {
     return (
@@ -106,6 +135,7 @@ export class Mapa extends React.Component {
             [-34.850406, -34.082082],
           ]}
         />
+        
         {
           /* Inserir Markers e Popups no mapa baseado
   			na latitude e longitude das IES. */
@@ -172,7 +202,7 @@ export class Mapa extends React.Component {
                      	'& a': {
                      		color: "#fff",
                      	},
-                     }}
+                     }}                     
                     >
                       Ver cadastro da instituição
                     </Button>
