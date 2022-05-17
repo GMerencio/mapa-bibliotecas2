@@ -48,15 +48,19 @@ export class Mapa extends React.Component {
     // Binds necessários para reter o escopo da classe
     this.handlePopupOpen = this.handlePopupOpen.bind(this);
     this.handlePopupClose = this.handlePopupClose.bind(this);
+    this.saveToSessionStorage = this.saveToSessionStorage.bind(this);
+    this.mapLoaded = this.mapLoaded.bind(this);
         
     // Restaurar estado do mapa da session storage, caso haja
     const prevState = window.sessionStorage.getItem('state');
     this.state = JSON.parse(prevState) || {
     	center: null,
-    	zoom: null,
-    	popup: null
+    	zoom: null
     };
-    
+  }
+  
+  componentDidMount() {
+  	this.props.updateMap(this.mapRef);
   }
 
   // Fecha o Popup aberto no momento
@@ -67,11 +71,7 @@ export class Mapa extends React.Component {
   /* Coloca o foco no Popup aberto e adiciona listeners adequados
   para fins de acessibilidade. */
   handlePopupOpen(e) {
-    this.previousCenter = e.popup._source._map.getCenter();
-
-    // e.popup._container.tabIndex = "-1";
-    // e.className.Popup.focus();
-    
+    this.previousCenter = e.popup._source._map.getCenter();    
     e.popup._container.tabIndex = "0";
     e.popup._container.focus();
     
@@ -80,6 +80,8 @@ export class Mapa extends React.Component {
         e.popup._closeButton.click();
       }
     };
+    
+    this.saveToSessionStorage();
   }
 
   /* Devolve o foco ao Marker após fechar o Popup e recentraliza
@@ -90,29 +92,24 @@ export class Mapa extends React.Component {
     this.previousCenter = null;
   }
 
-  componentDidMount() {
+  mapLoaded(e) {
   	// Restaurar o estado do mapa, caso a informação tenha sido salva
-  	if (this.state.zoom)
-  		this.mapRef.zoom(this.state.zoom);
-  	if (this.state.center)
-  		this.mapRef.panTo(this.state.center);
-  	if (this.state.popup)
-  		this.mapRef.openPopup(this.state.popup);
-  
-    this.props.updateMap(this.mapRef, this.markerRef);
+  	if (this.state.center && this.state.zoom)
+  		e.target.setView(JSON.parse(this.state.center), this.state.zoom);
   }
   
-  // Antes de sair do mapa, salvar o estado
-  /*componentWillUnmount() {
-  	console.log(this.mapRef);
-  	const newState = {
-  		center: JSON.stringify(this.mapRef.getCenter()),
-  		zoom: this.mapRef.getZoom(),
-  		popup: this.popupRef ? this.popupRef : null
+  // Salva o estado do mapa em session storage
+  saveToSessionStorage() {
+  	const current = this.mapRef.current;
+  	
+  	if(current) {
+  		const newState = {
+  			center: JSON.stringify(current.getCenter()),
+  			zoom: current.getZoom()
+  		}
+  		window.sessionStorage.setItem('state', JSON.stringify(newState));
   	}
-  	console.log(newState);
-  	window.sessionStorage.setItem('state', newState);
-  }*/
+  }
 
   render() {
     return (
@@ -122,6 +119,7 @@ export class Mapa extends React.Component {
         scrollWheelZoom={true}
         zoomControl={false}
         ref={this.mapRef}
+        whenReady={this.mapLoaded}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
@@ -150,9 +148,12 @@ export class Mapa extends React.Component {
                 popupclose: this.handlePopupClose,
               }}
             >
-              <Popup ref={this.popupRef} maxHeight={400}>
+              <Popup
+               ref={this.popupRef}
+               maxHeight={400}
+              >
 				  {/* tabindex para obter foco */}
-                <div className="popupaberto" tabindex="0">
+                <div>
                   <h2>{ies["NO_IES"]}</h2>
                   <p tabIndex="0">Endereço: {ies["end_completo_y"]}</p>
                   <p tabIndex="0">
