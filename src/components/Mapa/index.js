@@ -17,9 +17,7 @@ import markerShadow from "./marker-shadow.png";
 import markerIcon2x from "./marker-icon-2x.png";
 
 // Token de acesso do Mapbox
-// depois, por questões de segurança, passar este token para um arquivo de ambiente (.env)
-const TOKEN_MAPBOX =
-  "pk.eyJ1IjoiZ21lcmVuY2lvIiwiYSI6ImNsMjgyYTVxODA1OXUzZG56emppeHFkd2wifQ.5NMbrQod0tTYWB0CnqqEmA";
+const TOKEN_MAPBOX = process.env.REACT_APP_TOKEN_MAPBOX;
 
 // Variáveis de configuração
 const DEFAULT_ZOOM = 4;
