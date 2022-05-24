@@ -53,7 +53,8 @@ export class Mapa extends React.Component {
     const prevState = window.sessionStorage.getItem('state');
     this.state = JSON.parse(prevState) || {
     	center: null,
-    	zoom: null
+    	zoom: null,
+    	searchFilters: [1, 2]
     };
   }
   
@@ -103,7 +104,8 @@ export class Mapa extends React.Component {
   	if(current) {
   		const newState = {
   			center: JSON.stringify(current.getCenter()),
-  			zoom: current.getZoom()
+  			zoom: current.getZoom(),
+  			searchFilters: this.state.searchFilters
   		}
   		window.sessionStorage.setItem('state', JSON.stringify(newState));
   	}
@@ -132,10 +134,28 @@ export class Mapa extends React.Component {
           ]}
         />
         
-        {
-          /* Inserir Markers e Popups no mapa baseado
-  			na latitude e longitude das IES. */
-          censo.map((ies) => (
+        { this.renderMarkers() }
+      </MapContainer>
+    );
+  }
+  
+  /* Retorna código JSX para renderizar os Markers e Popups de
+  acordo com os filtros de busca atuais. */
+  renderMarkers() {
+  	const filters = this.state.searchFilters;
+  	
+  	switch(filters.length) {
+  		// Nível 0: regiões
+  		case 0:
+  		  return '';
+  		
+  		// Nível 1: estados
+  		case 1:
+  		  return '';
+  			
+  		// Nível 2: IES
+  		case 2:
+          return (censo.map((ies) => (
             <Marker
               position={[ies.lat, ies.long]}
               alt={ies["NO_IES"]}
@@ -150,7 +170,6 @@ export class Mapa extends React.Component {
                ref={this.popupRef}
                maxHeight={400}
               >
-				  {/* tabindex para obter foco */}
                 <div>
                   <h2>{ies["NO_IES"]}</h2>
                   <p tabIndex="0">Endereço: {ies["end_completo_y"]}</p>
@@ -218,9 +237,10 @@ export class Mapa extends React.Component {
                 </div>
               </Popup>
             </Marker>
-          ))
-        }
-      </MapContainer>
-    );
+          )));
+  		
+  		default:
+  			return '';
+  	}
   }
 }
