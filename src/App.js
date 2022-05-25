@@ -2,17 +2,17 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { PaginaMapa } from './components/PaginaMapa';
-import { TesteBack } from './components/TesteBack';
 import PaginaIes from './components/PaginaIes';
+import { TesteBack } from './components/TesteBack';
 
 function App() {
   return (
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={<TesteBack />} />
-          <Route path="/mapa" element={<PaginaMapa />} />
+          <Route path="/" element={<PaginaMapa />} />
           <Route path="/ies/:id" element={<PaginaIes />} />
+          <Route path="/teste" element={<TesteBack />} />
         </Routes>
       </Router>
     </div>

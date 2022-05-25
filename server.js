@@ -4,6 +4,7 @@ const express = require('express');
 
 // Importações (arquivos locais)
 const iesRoute = require("./api/ies");
+const dbo = require('./db-connection');
 
 // Inicialização
 const app = express();
@@ -25,7 +26,14 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-// Escutar a porta especificada para requisições
-const server = app.listen(app.get('port'), function() {
-  console.log('listening on port ', server.address().port);
+// Conectar ao BD e escutar a porta especificada para requisições
+dbo.connectToServer(function (err) {
+  if (err) {
+    console.error(err);
+    process.exit();
+  }
+
+  const server = app.listen(app.get('port'), () => {
+    console.log(`Servidor rodando na porta: ${server.address().port}`);
+  });
 });
