@@ -7,6 +7,8 @@ import L from "leaflet";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 
+import FilterControl from '../FilterControl';
+
 // CSS, dados e scripts
 import "./style.css";
 import filters from "../../filtros.json";
@@ -48,6 +50,7 @@ export class Mapa extends React.Component {
     this.handlePopupClose = this.handlePopupClose.bind(this);
     this.saveToSessionStorage = this.saveToSessionStorage.bind(this);
     this.mapLoaded = this.mapLoaded.bind(this);
+    this.backFilter = this.backFilter.bind(this);
     
     // Objeto com registros de IES obtidos no banco de dados
     this.censo = [];
@@ -126,6 +129,23 @@ export class Mapa extends React.Component {
   	return icon;
   }
   
+  // Retorna ao nível anterior de filtros de busca
+  backFilter() {
+  	const currentFilters = this.state.searchFilters;
+  	switch (currentFilters.length) {
+  		case 2:
+  			this.mapRef.current.zoomOut(2);
+  			break;
+  		case 1:
+  			this.mapRef.current.zoomOut(1);
+  			break;
+  		default:
+  			return null;
+  	}
+  	currentFilters.pop();
+  	this.setState( { searchFilters: currentFilters } );
+  }
+  
   /* Obtém as IES situadas no estado especificado e as armazena em
   this.censo. */
   retrieveIesEstado(nomeEstado) {
@@ -162,7 +182,12 @@ export class Mapa extends React.Component {
             [-34.850406, -34.082082],
           ]}
         />
-        
+        {this.state.searchFilters.length > 0 &&
+        	<FilterControl
+        		filters={this.state.searchFilters}
+        		clickHandler={this.backFilter}
+        	/>
+        }
         { this.renderMarkers() }
       </MapContainer>
     );
