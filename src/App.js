@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { PaginaMapa } from './components/PaginaMapa';
 import PaginaIes from './components/PaginaIes';
-import { TesteBack } from './components/TesteBack';
 
 function App() {
   return (

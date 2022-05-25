@@ -6,8 +6,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 
-import { censo } from "../Mapa/censo";
-
 class PaginaIes extends React.Component {
   constructor(props) {
   	super(props);
@@ -18,9 +16,10 @@ class PaginaIes extends React.Component {
   }
   
   componentDidMount() {
-  	const noIes = this.props.params.id;
-  	const getIes = censo.find(obj => obj["NO_IES"] === noIes);
-  	this.setState({ies: getIes});
+  	const coIes = this.props.params.id;
+  	fetch(`/api/ies/${coIes}`)
+      .then(res => res.json())
+      .then(jsonRes => this.setState({ies: jsonRes}));
   }
   
   render() {

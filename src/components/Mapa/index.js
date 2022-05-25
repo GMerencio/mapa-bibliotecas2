@@ -289,7 +289,7 @@ export class Mapa extends React.Component {
                   <ButtonGroup orientation="vertical">
                     <Button
                      variant="contained"
-                     href={`/pagina-ies/${ies["NO_IES"]}`}
+                     href={`/pagina-ies/${ies["CO_IES"]}`}
                      sx={{
                      	'& a': {
                      		color: "#fff",
