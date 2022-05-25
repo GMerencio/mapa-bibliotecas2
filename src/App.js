@@ -12,7 +12,6 @@ function App() {
         <Routes>
           <Route path="/" element={<PaginaMapa />} />
           <Route path="/pagina-ies/:id" element={<PaginaIes />} />
-          <Route path="/teste" element={<TesteBack />} />
         </Routes>
       </Router>
     </div>
