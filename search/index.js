@@ -66,13 +66,13 @@ function saveFilters(filters) {
 executa queries. */
 async function run(){
 	let filters = getFilters();
+	const estadosObj = JSON.parse(fs.readFileSync('estados.json'));
+	
     try{
         await client.connect();
         console.log("Conectado com sucesso ao BD");
         const database = client.db(process.env.MONGODB_DATABASE);
         const censo2020 = database.collection(process.env.MONGODB_COLLECTION);
-        
-        filters = getFilters();
         
         for (const regiao in filters) {
         	const query_regiao = { NO_REGIAO_IES: regiao };
@@ -86,16 +86,13 @@ async function run(){
         	for (const nome_estado of nomes_estados) {
         		const query = { NO_UF_IES: nome_estado };
         		
-        		// Popular a partir de uma IES na capital
-        		let estado = await censo2020.findOne(
+        		let estado = await censo2020.findOne(query,
         		{
-        			NO_UF_IES: nome_estado,
-        			IN_CAPITAL_IES: "1"
-        		},
-        		{
-        			projection: {_id: 0, lat: 1, long: 1, CO_UF_IES: 1}
+        			projection: {_id: 0, CO_UF_IES: 1}
         		});
         		estado['qtd_ies'] = await censo2020.countDocuments(query);
+        		estado['lat'] = estadosObj[nome_estado][0];
+        		estado['long'] = estadosObj[nome_estado][1];
         		estado['municipios'] = {};
         		
         		// Obter os municípios do estado
