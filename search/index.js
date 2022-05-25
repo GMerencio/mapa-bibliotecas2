@@ -58,7 +58,7 @@ function getFilters() {
 /* Salva o objeto de filros no arquivo filtros.json. */
 function saveFilters(filters) {
 	const data = JSON.stringify(filters);
-	fs.writeFileSync('filtros.json', data);
+	fs.writeFileSync('../src/filtros.json', data);
 	console.log("Filtros salvos em arquivo");
 }
 
@@ -85,16 +85,21 @@ async function run(){
         	// Popular a região com os estados
         	for (const nome_estado of nomes_estados) {
         		const query = { NO_UF_IES: nome_estado };
-        		let estado = await censo2020.findOne(query, {
+        		
+        		// Popular a partir de uma IES na capital
+        		let estado = await censo2020.findOne(
+        		{
+        			NO_UF_IES: nome_estado,
+        			IN_CAPITAL_IES: "1"
+        		},
+        		{
         			projection: {_id: 0, lat: 1, long: 1, CO_UF_IES: 1}
         		});
         		estado['qtd_ies'] = await censo2020.countDocuments(query);
         		estado['municipios'] = {};
         		
         		// Obter os municípios do estado
-        		const nomes_municipios = await censo2020.distinct('NO_MUNICIPIO_IES', {
-        			NO_UF_IES: nome_estado
-        		});
+        		const nomes_municipios = await censo2020.distinct('NO_MUNICIPIO_IES', query);
         		
         		// Popular o estado com os municípios
         		for (const nome_municipio of nomes_municipios) {

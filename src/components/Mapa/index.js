@@ -9,7 +9,7 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 
 // CSS, dados e scripts
 import "./style.css";
-import { censo } from "./censo";
+import filters from "../../filtros.json";
 
 // Imagens
 import markerIcon from "./marker-icon.png";
@@ -48,13 +48,16 @@ export class Mapa extends React.Component {
     this.handlePopupClose = this.handlePopupClose.bind(this);
     this.saveToSessionStorage = this.saveToSessionStorage.bind(this);
     this.mapLoaded = this.mapLoaded.bind(this);
+    
+    // Objeto com registros de IES obtidos no banco de dados
+    this.censo = [];
         
     // Restaurar estado do mapa da session storage, caso haja
     const prevState = window.sessionStorage.getItem('state');
     this.state = JSON.parse(prevState) || {
     	center: null,
     	zoom: null,
-    	searchFilters: [1, 2]
+    	searchFilters: []
     };
   }
   
@@ -95,6 +98,8 @@ export class Mapa extends React.Component {
   	// Restaurar o estado do mapa, caso a informação tenha sido salva
   	if (this.state.center && this.state.zoom)
   		e.target.setView(JSON.parse(this.state.center), this.state.zoom);
+  	if (this.state.searchFilters.length === 2)
+  		this.retrieveIesEstado(this.state.searchFilters[1]);
   }
   
   // Salva o estado do mapa em session storage
@@ -109,6 +114,30 @@ export class Mapa extends React.Component {
   		}
   		window.sessionStorage.setItem('state', JSON.stringify(newState));
   	}
+  }
+  
+  /* Cria e retorna um L.divIcon para ser usado com Markers que
+  exibem texto. */
+  getDivIcon(str, altText) {
+  	const icon = L.divIcon({
+  		className: 'my-div-icon',
+  		html: `<div aria-label=${altText}><span>${str}</span></div>`
+  	});
+  	return icon;
+  }
+  
+  /* Obtém as IES situadas no estado especificado e as armazena em
+  this.censo. */
+  retrieveIesEstado(nomeEstado) {
+    const currentFilters = this.state.searchFilters;
+    const estadoObj = filters[currentFilters[0]]['estados'][nomeEstado];
+    
+  	return fetch(`/api/ies/estados/${estadoObj['CO_UF_IES']}`)
+      .then(res => res.json())
+      .then(jsonRes => {
+      	this.censo = jsonRes;
+      	this.setState(this.state); // Forçar atualização
+      });
   }
 
   render() {
@@ -142,23 +171,68 @@ export class Mapa extends React.Component {
   /* Retorna código JSX para renderizar os Markers e Popups de
   acordo com os filtros de busca atuais. */
   renderMarkers() {
-  	const filters = this.state.searchFilters;
+  	const currentFilters = this.state.searchFilters;
   	
-  	switch(filters.length) {
+  	switch(currentFilters.length) {
   		// Nível 0: regiões
   		case 0:
-  		  return '';
+  		  return (Object.entries(filters).map(([key, val]) => (
+  		  	<Marker
+  		  	  position={[val.lat, val.long]}
+  		  	  key={key}
+  		  	  title={key}
+  		  	  keyboard={true}
+              icon={this.getDivIcon(val['qtd_ies'], key)}
+              eventHandlers={{
+                click: () => {
+                	this.mapRef.current.setView(
+                		[val.lat, val.long],
+                		this.mapRef.current.getZoom() + 1
+                	);
+                	currentFilters.push(key);
+                	this.setState({searchFilters: currentFilters});
+                }
+              }}
+  		  	>
+  		  	</Marker>
+  		  )));
   		
   		// Nível 1: estados
   		case 1:
-  		  return '';
+  		  const regiao = currentFilters[0];
+  		  return (Object.entries(filters[regiao]['estados']).map(
+  		  ([key, val]) => (
+  		  	<Marker
+  		  	  position={[val.lat, val.long]}
+  		  	  key={key}
+  		  	  title={key}
+  		  	  keyboard={true}
+              icon={this.getDivIcon(val['qtd_ies'], key)}
+              eventHandlers={{
+                click: () => {
+                	this.retrieveIesEstado(key);
+                	this.mapRef.current.setView(
+                		[val.lat, val.long],
+                		this.mapRef.current.getZoom() + 2
+                	);
+                	currentFilters.push(key);
+                	this.setState({searchFilters: currentFilters});
+                }
+              }}
+  		  	>
+  		  	</Marker>
+  		  )));
   			
   		// Nível 2: IES
-  		case 2:
-          return (censo.map((ies) => (
+  		case 2:  		  
+  		  if (this.censo.length <= 0)
+  		  	return '';
+  		  
+          return (this.censo.map((ies) => (
             <Marker
               position={[ies.lat, ies.long]}
               alt={ies["NO_IES"]}
+              key={ies["_id"]}
               keyboard={true}
               icon={this.icon}
               eventHandlers={{
@@ -215,7 +289,7 @@ export class Mapa extends React.Component {
                   <ButtonGroup orientation="vertical">
                     <Button
                      variant="contained"
-                     href={`/ies/${ies["NO_IES"]}`}
+                     href={`/pagina-ies/${ies["NO_IES"]}`}
                      sx={{
                      	'& a': {
                      		color: "#fff",

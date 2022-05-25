@@ -11,7 +11,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<PaginaMapa />} />
-          <Route path="/ies/:id" element={<PaginaIes />} />
+          <Route path="/pagina-ies/:id" element={<PaginaIes />} />
           <Route path="/teste" element={<TesteBack />} />
         </Routes>
       </Router>
