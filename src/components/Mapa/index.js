@@ -129,7 +129,9 @@ export class Mapa extends React.Component {
   getDivIcon(str, altText) {
   	const icon = L.divIcon({
   		className: 'my-div-icon',
-  		html: `<div aria-label=${altText}><span>${str}</span></div>`
+  		html: `<div aria-label=${altText}>
+  			     <span>${str}</span>
+  			   </div>`
   	});
   	return icon;
   }

@@ -6,6 +6,8 @@ import React from "react";
 import { useMap } from "react-leaflet";
 import L from "leaflet";
 
+import "./style.css";
+
 class FilterControl extends React.Component {
 
   createButtonControl() {
@@ -25,6 +27,7 @@ class FilterControl extends React.Component {
     const { map } = this.props;
     const control = this.createButtonControl();
     control.addTo(map);
+    this.helpDiv.focus();
   }
 
   componentWillUnmount() {
