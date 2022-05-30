@@ -8,6 +8,7 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 
 import FilterControl from '../FilterControl';
+import MarkerClusterGroup from '../MarkerClusterGroup';
 
 // CSS, dados e scripts
 import "./style.css";
@@ -259,7 +260,9 @@ export class Mapa extends React.Component {
   		  if (this.censo.length <= 0)
   		  	return '';
   		  
-          return (this.censo.map((ies) => (
+          return (
+          <MarkerClusterGroup>
+          {this.censo.map((ies) => (
             <Marker
               position={[ies.lat, ies.long]}
               alt={ies["NO_IES"]}
@@ -342,7 +345,9 @@ export class Mapa extends React.Component {
                 </div>
               </Popup>
             </Marker>
-          )));
+          ))}
+          </MarkerClusterGroup>
+          );
   		
   		default:
   			return '';

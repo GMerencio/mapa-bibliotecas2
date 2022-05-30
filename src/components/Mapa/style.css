@@ -7,6 +7,10 @@
   color: #fff;
 }
 
+.markercluster-map {
+  height: 90vh; 
+}
+
 .my-div-icon div {
   border-style: solid;
   border-width: 3px;
