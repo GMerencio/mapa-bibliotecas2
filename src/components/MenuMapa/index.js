@@ -25,7 +25,7 @@ export class MenuMapa extends React.Component {
             <Container>
               <p>
                 Tamanho do mapa:{" "}
-                <i class="fa fa-search-plus" aria-hidden="true"></i>
+                <i className="fa fa-search-plus" aria-hidden="true"></i>
               </p>
               <ButtonGroup variant="contained">
                 <Button
@@ -47,7 +47,7 @@ export class MenuMapa extends React.Component {
 
             <Container>
               <p>
-                Contraste: <i class="fa fa-adjust" aria-hidden="true"></i>{" "}
+                Contraste: <i className="fa fa-adjust" aria-hidden="true"></i>{" "}
               </p>
               <ButtonGroup variant="contained">
                 <Button
@@ -69,7 +69,7 @@ export class MenuMapa extends React.Component {
 
             <Container>
               <p>
-                Brilho: <i class="fa fa-sun-o" aria-hidden="true"></i>
+                Brilho: <i className="fa fa-sun-o" aria-hidden="true"></i>
               </p>
               <ButtonGroup variant="contained">
                 <Button
@@ -92,7 +92,7 @@ export class MenuMapa extends React.Component {
             <Container>
               <p>
                 Esquema de cores:{" "}
-                <i class="fa fa-eyedropper" aria-hidden="true"></i>
+                <i className="fa fa-eyedropper" aria-hidden="true"></i>
               </p>
               <ButtonGroup variant="contained">
                 <Button
