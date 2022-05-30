@@ -63,6 +63,10 @@ export class Mapa extends React.Component {
     	zoom: null,
     	searchFilters: []
     };
+    
+    // Níveis de zoom correspondentes aos nívels de filtros de busca
+    this.regionZoom = 5;
+    this.stateZoom = 7;
   }
   
   componentDidMount() {
@@ -135,10 +139,10 @@ export class Mapa extends React.Component {
   	const currentFilters = this.state.searchFilters;
   	switch (currentFilters.length) {
   		case 2:
-  			this.mapRef.current.zoomOut(2);
+  			this.mapRef.current.setZoom(this.regionZoom);
   			break;
   		case 1:
-  			this.mapRef.current.zoomOut(1);
+  			this.mapRef.current.setZoom(DEFAULT_ZOOM);
   			break;
   		default:
   			return null;
@@ -219,7 +223,7 @@ export class Mapa extends React.Component {
                 click: () => {
                 	this.mapRef.current.setView(
                 		[val.lat, val.long],
-                		this.mapRef.current.getZoom() + 1
+                		this.regionZoom
                 	);
                 	currentFilters.push(key);
                 	this.setState({searchFilters: currentFilters});
@@ -245,7 +249,7 @@ export class Mapa extends React.Component {
                 	this.retrieveIesEstado(key);
                 	this.mapRef.current.setView(
                 		[val.lat, val.long],
-                		this.mapRef.current.getZoom() + 2
+                		this.stateZoom
                 	);
                 	currentFilters.push(key);
                 	this.setState({searchFilters: currentFilters});
