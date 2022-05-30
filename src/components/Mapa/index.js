@@ -160,7 +160,7 @@ export class Mapa extends React.Component {
       });
   }
 
-  render() {
+  render() {  	
     return (
       <MapContainer
         center={[-14.235, -51.9253]}
@@ -182,9 +182,15 @@ export class Mapa extends React.Component {
             [-34.850406, -34.082082],
           ]}
         />
-        {this.state.searchFilters.length > 0 &&
+        {this.state.searchFilters.length === 1 &&
         	<FilterControl
-        		filters={this.state.searchFilters}
+        		txt={`Retornar à visão geral`}
+        		clickHandler={this.backFilter}
+        	/>
+        }
+        {this.state.searchFilters.length === 2 &&
+        	<FilterControl
+        		txt={`Retornar à região ${this.state.searchFilters[0]}`}
         		clickHandler={this.backFilter}
         	/>
         }
