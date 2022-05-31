@@ -25,6 +25,10 @@ const TOKEN_MAPBOX = process.env.REACT_APP_TOKEN_MAPBOX;
 // Variáveis de configuração
 const DEFAULT_ZOOM = 4;
 const MAX_ZOOM = 14;
+const ZOOM_LEVELS = {
+    "região": 5,
+    "estado": 7
+};
 
 export class Mapa extends React.Component {
   constructor(props) {
@@ -63,10 +67,6 @@ export class Mapa extends React.Component {
     	zoom: null,
     	searchFilters: []
     };
-    
-    // Níveis de zoom correspondentes aos nívels de filtros de busca
-    this.regionZoom = 5;
-    this.stateZoom = 7;
   }
   
   componentDidMount() {
@@ -102,6 +102,7 @@ export class Mapa extends React.Component {
     this.previousCenter = null;
   }
 
+  // Método chamado após carregar o mapa
   mapLoaded(e) {
   	// Restaurar o estado do mapa, caso a informação tenha sido salva
   	if (this.state.center && this.state.zoom)
@@ -124,15 +125,47 @@ export class Mapa extends React.Component {
   	}
   }
   
-  /* Cria e retorna um L.divIcon para ser usado com Markers que
-  exibem texto. */
-  getDivIcon(str, altText) {
+  /* Cria e retorna um L.divIcon para ser usado com Markers de
+  filtro.
+  	 txt: O texto a ser exibido.
+  	 name: Nome da região/estado/etc.
+  	 type: Aceita os valores especificado em ZOOM_LEVELS.
+  	 latLong: Array com os valores de latitude e longitude,
+  	 respectivamente.
+  */
+  getDivIcon(txt, name, type, latLong) {
+    // Construir o elemento HTML
+    let divEl = L.DomUtil.create("div");
+    divEl.setAttribute("aria-label", name);
+    divEl.setAttribute("tabIndex", "0");
+    let spanEl = L.DomUtil.create("span", "", divEl);
+    spanEl.innerHTML = txt;
+    
+    // Adicionar listeners    
+    divEl.addEventListener("click", () => {
+    	this.applySearchFilter(
+    		type,
+            latLong,
+            name
+        );
+    });
+    
+    divEl.addEventListener("keyup", (e) => {
+    	if(e.key === "Enter") {
+    		this.applySearchFilter(
+    			type,
+            	latLong,
+            	name
+        	);
+        }
+    });
+    
+    // Construir ícone com o elemento HTML
   	const icon = L.divIcon({
   		className: 'my-div-icon',
-  		html: `<div aria-label=${altText}>
-  			     <span>${str}</span>
-  			   </div>`
+  		html: divEl
   	});
+  	
   	return icon;
   }
   
@@ -141,7 +174,7 @@ export class Mapa extends React.Component {
   	const currentFilters = this.state.searchFilters;
   	switch (currentFilters.length) {
   		case 2:
-  			this.mapRef.current.setZoom(this.regionZoom);
+  			this.mapRef.current.setZoom(ZOOM_LEVELS['região']);
   			break;
   		case 1:
   			this.mapRef.current.setZoom(DEFAULT_ZOOM);
@@ -151,6 +184,31 @@ export class Mapa extends React.Component {
   	}
   	currentFilters.pop();
   	this.setState( { searchFilters: currentFilters } );
+  }
+  
+  /* Método chamado ao selecionar uma região/estado/etc.
+  	 type: Aceita os valores especificado em ZOOM_LEVELS.
+  	 latLong: Array com os valores de latitude e longitude,
+  	 respectivamente, nos quais deve-se centrar o zoom. Se null,
+  	 não usar nenhum ponto como foco do zoom.
+  	 name: Nome da região/estado/etc.
+  */
+  applySearchFilter(type, latLong, name) {
+  	let currentFilters = this.state.searchFilters;
+  	
+  	if(!(type in ZOOM_LEVELS))
+  		return null;
+  		
+  	if(type === "estado")
+  		this.retrieveIesEstado(name);
+  	
+  	if(latLong)
+  		this.mapRef.current.setView(latLong, ZOOM_LEVELS[type]);
+  	else
+  		this.mapRef.current.setZoom(ZOOM_LEVELS[type]);
+  	
+    currentFilters.push(name);
+    this.setState({searchFilters: currentFilters});
   }
   
   /* Obtém as IES situadas no estado especificado e as armazena em
@@ -219,18 +277,8 @@ export class Mapa extends React.Component {
   		  	  position={[val.lat, val.long]}
   		  	  key={key}
   		  	  title={key}
-  		  	  keyboard={true}
-              icon={this.getDivIcon(val['qtd_ies'], key)}
-              eventHandlers={{
-                click: () => {
-                	this.mapRef.current.setView(
-                		[val.lat, val.long],
-                		this.regionZoom
-                	);
-                	currentFilters.push(key);
-                	this.setState({searchFilters: currentFilters});
-                }
-              }}
+  		  	  keyboard={false}
+              icon={this.getDivIcon(val['qtd_ies'], key, 'região', [val.lat, val.long])}
   		  	>
   		  	</Marker>
   		  )));
@@ -244,19 +292,8 @@ export class Mapa extends React.Component {
   		  	  position={[val.lat, val.long]}
   		  	  key={key}
   		  	  title={key}
-  		  	  keyboard={true}
-              icon={this.getDivIcon(val['qtd_ies'], key)}
-              eventHandlers={{
-                click: () => {
-                	this.retrieveIesEstado(key);
-                	this.mapRef.current.setView(
-                		[val.lat, val.long],
-                		this.stateZoom
-                	);
-                	currentFilters.push(key);
-                	this.setState({searchFilters: currentFilters});
-                }
-              }}
+  		  	  keyboard={false}
+              icon={this.getDivIcon(val['qtd_ies'], key, 'estado', [val.lat, val.long])}
   		  	>
   		  	</Marker>
   		  )));
