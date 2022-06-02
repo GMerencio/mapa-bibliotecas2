@@ -10,13 +10,21 @@ import "./style.css";
 
 class FilterControl extends React.Component {
 
+  constructor(props) {
+    super(props);
+    
+  	this.state = {
+  		searchFilters: []
+  	};
+  }
+
   createButtonControl() {
     const MapHelp = L.Control.extend({
       onAdd: (map) => {
         const helpDiv = L.DomUtil.create("button", "");
         this.helpDiv = helpDiv;
-        helpDiv.innerHTML = this.props.txt;
         helpDiv.addEventListener("click", this.props.clickHandler);
+        helpDiv.hidden = true;
         return helpDiv;
       }
     });
@@ -27,7 +35,6 @@ class FilterControl extends React.Component {
     const { map } = this.props;
     const control = this.createButtonControl();
     control.addTo(map);
-    this.helpDiv.focus();
   }
 
   componentWillUnmount() {
@@ -35,15 +42,48 @@ class FilterControl extends React.Component {
   }
 
   render() {
+  	if(!this.helpDiv)
+  		return null;
+  	
+  	const filters = this.state.searchFilters;
+    let txt = "";
+    let hidden = false;
+    
+    switch (filters.length) {
+    	case 0:
+    		hidden = true;
+    		break;
+    	case 1:
+    		txt = "Retornar à visão geral";
+    		break;
+    	case 2:
+    		txt = `Retornar à região ${filters[0]}`;
+    		break;
+    	default:
+    		return null;
+    }
+    
+    this.helpDiv.innerHTML = txt;
+    this.helpDiv.hidden = hidden;
+    this.helpDiv.ariaHidden = hidden;
+    
+    if (!hidden) {
+    	this.helpDiv.setAttribute("tabindex", "0");
+    	this.helpDiv.focus();
+    }
+    else {
+    	this.helpDiv.setAttribute("tabindex", "-1");    	
+    }
+    	
     return null;
   }
 }
 
-function withMap(Component) {
-  return function WrappedComponent(props) {
-    const map = useMap();
-    return <Component {...props} map={map} />;
-  };
-}
+// Wrapper para utilizar hooks e encaminhar ref à classe
 
-export default withMap(FilterControl);
+const wrapper = React.forwardRef((props, ref) => {
+	const map = useMap();
+	return <FilterControl {...props} map={map} ref={ref} />;
+});
+
+export default wrapper;

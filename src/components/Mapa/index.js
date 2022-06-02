@@ -49,6 +49,7 @@ export class Mapa extends React.Component {
     this.mapRef = React.createRef();
     this.popupRef = React.createRef();
     this.previousCenter = null;
+    this.controlRef = React.createRef();
 
     // Binds necessários para reter o escopo da classe
     this.handlePopupOpen = this.handlePopupOpen.bind(this);
@@ -142,7 +143,7 @@ export class Mapa extends React.Component {
     spanEl.innerHTML = txt;
     
     // Adicionar listeners    
-    divEl.addEventListener("click", () => {
+    divEl.addEventListener("mouseup", () => {
     	this.applySearchFilter(
     		type,
             latLong,
@@ -183,7 +184,7 @@ export class Mapa extends React.Component {
   			return null;
   	}
   	currentFilters.pop();
-  	this.setState( { searchFilters: currentFilters } );
+  	this.setState({searchFilters: currentFilters}, this.updateControl);
   }
   
   /* Método chamado ao selecionar uma região/estado/etc.
@@ -208,7 +209,7 @@ export class Mapa extends React.Component {
   		this.mapRef.current.setZoom(ZOOM_LEVELS[type]);
   	
     currentFilters.push(name);
-    this.setState({searchFilters: currentFilters});
+    this.setState({searchFilters: currentFilters}, this.updateControl);
   }
   
   /* Obtém as IES situadas no estado especificado e as armazena em
@@ -223,6 +224,12 @@ export class Mapa extends React.Component {
       	this.censo = jsonRes;
       	this.setState(this.state); // Forçar atualização
       });
+  }
+  
+  updateControl() {
+  	if (this.controlRef.current) {
+  		this.controlRef.current.setState({searchFilters: this.state.searchFilters})
+  	}
   }
 
   render() {  	
@@ -247,18 +254,10 @@ export class Mapa extends React.Component {
             [-34.850406, -34.082082],
           ]}
         />
-        {this.state.searchFilters.length === 1 &&
-        	<FilterControl
-        		txt={`Retornar à visão geral`}
-        		clickHandler={this.backFilter}
-        	/>
-        }
-        {this.state.searchFilters.length === 2 &&
-        	<FilterControl
-        		txt={`Retornar à região ${this.state.searchFilters[0]}`}
-        		clickHandler={this.backFilter}
-        	/>
-        }
+        <FilterControl
+        	clickHandler={this.backFilter}
+        	ref={this.controlRef}
+        />
         { this.renderMarkers() }
       </MapContainer>
     );
