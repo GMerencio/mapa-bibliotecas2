@@ -10,18 +10,16 @@ const client = new MongoClient(MONGODB_URI);
 let dbConnection;
 
 module.exports = {
-  connectToServer: function (callback) {
-    client.connect(function (err, db) {
-      if (err || !db) {
-        return callback(err);
-      }
-
-      dbConnection = db.db(process.env.MONGODB_DATABASE)
-      					.collection(process.env.MONGODB_COLLECTION);
-      console.log('Conectou com sucesso ao MongoDB.');
-
-      return callback();
-    });
+  connectToServer: async function (callback) {
+  	try {
+  		await client.connect();
+  		let db = await client.db(process.env.MONGODB_DATABASE);
+  		dbConnection = await db.collection(process.env.MONGODB_COLLECTION);
+  		console.log('Conectou com sucesso ao MongoDB.');
+	  	callback();
+  	} catch (err) {
+  		return callback(err);
+  	}
   },
 
   getDb: function () {
