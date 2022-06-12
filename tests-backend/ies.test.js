@@ -1,10 +1,8 @@
-const { app, connectToDB } = require('../app');
+const { app, connectToDB, closeDb } = require('../app');
 const request = require('supertest')(app);
 
 beforeAll(async () => {
-	console.log("beforeAll, connect to DB");
 	await connectToDB();
-	console.log("Finished beforeAll");
 });
 
 test('Teste do endpoint api/ies/{cod}', async () => {
@@ -32,4 +30,8 @@ test('Teste do endpoint api/ies/municipios/{cod}', async () => {
         .expect('Content-Type', /application\/json/);
     // Código 1200203 = Rio Branco, AC. Quantidade de IES: 1
     expect(resItem.body.length).toEqual(1);
+});
+
+afterAll(async () => {
+	await closeDb();
 });

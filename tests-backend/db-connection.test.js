@@ -5,3 +5,7 @@ test("Testar conexão com BD", () => {
 		expect(err).toBeFalsy();
 	});
 });
+
+afterAll(async () => {
+	await dbo.closeDb();
+});

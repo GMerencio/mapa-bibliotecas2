@@ -25,4 +25,9 @@ module.exports = {
   getDb: function () {
     return dbConnection;
   },
+  
+  closeDb: async function() {
+  	await client.close();
+  	console.log("Conexão com o MongoDB encerrada com sucesso");
+  }
 };

@@ -39,4 +39,9 @@ const connectToDB = async () => {
 	});
 }
 
-module.exports = { app, connectToDB };
+// Encerrar conexão com o BD
+const closeDb = async () => {
+	await dbo.closeDb();
+}
+
+module.exports = { app, connectToDB, closeDb };
