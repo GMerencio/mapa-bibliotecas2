@@ -194,7 +194,10 @@ export class Mapa extends React.Component {
   			return null;
   	}
   	currentFilters.pop();
-  	this.setState({searchFilters: currentFilters}, this.updateControl);
+  	this.setState({searchFilters: currentFilters}, () => {
+  		this.updateControl();
+  		this.focusOnMarker();
+  	});
   }
   
   /* Método chamado ao selecionar uma região/estado/etc.
