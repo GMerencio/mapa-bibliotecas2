@@ -20,8 +20,10 @@ export class MenuMapa extends React.Component {
             },
           }}
         >
-          {/* TODO: Alternar para column com media query */}
-          <Stack direction="row">
+          <Stack
+           direction={{ xs: 'column', lg: 'row' }}
+           textAlign='center'
+          >
             <Container>
               <p>
                 Tamanho do mapa:{" "}
