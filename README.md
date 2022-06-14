@@ -24,6 +24,7 @@ As principais pastas e arquivos do projeto são:
 * `src`: Pasta contendo os arquivos referentes ao front end (React).
 * `api`: Parte principal do back end que responde as requisições do front end.
 * `search`: Pasta contendo um script que gera um arquivo `filtros.json` utilizado para filtrar o mapa por regiões.
+* `tests-backend`: Pasta contendo os scripts de testes de conexão com o banco de dados, endpoints e outros aspectos do back end.
 
 ## Setup 
 
@@ -43,6 +44,10 @@ Configure e salve o arquivo como `.env` na raiz do projeto. Agora basta executar
 ## Setup (back-end)
 
 Após executar `npm install` e configurar o arquivo `.env`, execute `npm start` para iniciar o servidor Node localmente. Note que `npm run dev` já inicia o servidor Node local junto com o servidor de desenvolvimento, então use esse comando se quiser iniciar apenas o servidor Node. Caso necessário, execute `npm build` antes desse comando para gerar uma aplicação React estática na pasta `build`.
+
+## Testes
+
+Execute os testes com os comandos `npm run test-react` (testes do front end) e `npm run test-backend` (testes do back end).
 
 ## Deploy (Heroku)
 
