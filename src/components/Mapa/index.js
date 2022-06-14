@@ -57,9 +57,14 @@ export class Mapa extends React.Component {
     this.saveToSessionStorage = this.saveToSessionStorage.bind(this);
     this.mapLoaded = this.mapLoaded.bind(this);
     this.backFilter = this.backFilter.bind(this);
+    this.focusOnMarker = this.focusOnMarker.bind(this);
+    this.focusOnContainer = this.focusOnContainer.bind(this);
     
     // Indica se o controle de atribuição foi adicionado ao mapa
     this.attributionAdded = false;
+    
+    // Indica se a tecla Shift está pressionada
+    this.shiftDown = false;
     
     // Objeto com registros de IES obtidos no banco de dados
     this.censo = [];
@@ -239,9 +244,7 @@ export class Mapa extends React.Component {
   }
   
   // Adiciona um controle de atribuição ao mapa
-  addAttribution() {
-  	if (!this.mapRef)
-  		return null;
+  addMapAttribution() {
   	if (!this.mapRef.current)
   		return null;
   	
@@ -250,10 +253,92 @@ export class Mapa extends React.Component {
   	this.mapRef.current.addControl(attribution);
   	this.attributionAdded = true;
   }
+  
+  // Adiciona listeners ao mapa
+  addMapListeners() {
+  	if (!this.mapRef.current)
+  		return null;
+  		
+  	const container = this.mapRef.current._container;
+  	
+  	// Dar foco ao controle caso Shift + Tab seja acionado
+  	// sobre o primeiro marcador
+  		
+  	container.addEventListener("keydown", (e) => {
+  		// Ignorar eventos especiais de clique na visão geral
+  		if(this.state.searchFilters.length === 0)
+  			return null;
+  		
+  		const firstMarker = container.querySelector('.leaflet-marker-pane').firstChild;
+  		const lastMarker = container.querySelector('.leaflet-marker-pane').lastChild;
+  		const control = this.controlRef.current;
+  		let markerEl = e.target.offsetParent;
+  		if (markerEl.classList.contains('leaflet-pane'))
+  			markerEl = e.target;
+  			
+  		if (e.key === 'Shift')
+  			this.shiftDown = true;
+  		
+  		// Shift-Tab no primeiro marcador: Focar de volta no controle
+  		if (e.key === 'Tab' && this.shiftDown) {
+  			if (markerEl === firstMarker) {
+  				this.focusOnControl();
+  				e.preventDefault();
+  			}
+  		}
+  		
+  		if (e.key === 'Tab' && !this.shiftDown) {
+  			// Tab no último marcador: Acionar flag para evitar
+  			// "loop infinito" de navegação
+  			if (markerEl === lastMarker) {
+  				control.setState({fromLastMarker: true});
+  				e.preventDefault();
+  			}
+  			
+  			// Tab no container do mapa: Focar no controle
+  			else if (markerEl.tagName === 'BODY') {
+  				this.focusOnControl();
+  				e.preventDefault();
+  			}
+  		}
+  	});
+  	
+  	container.addEventListener("keyup", (e) => {
+  		if (e.key === 'Shift')
+  			this.shiftDown = false;
+  	});
+  }
+  
+  // Retorna foco ao primeiro Marker do mapa
+  focusOnMarker() {
+  	const container = this.mapRef.current._container;
+  	let firstMarker = container.querySelector('.leaflet-marker-pane').firstChild;
+  	if (firstMarker.classList.contains('leaflet-marker-icon') && !firstMarker.getAttribute('role'))
+  		firstMarker = firstMarker.firstChild;
+  	firstMarker.focus();
+  }
+  
+  // Retorna foco ao controle de filtros, caso haja
+  focusOnControl() {
+  	const control = this.controlRef.current;
+  	if (control) {
+  		control.setState(control.state);
+  	}
+  }
+  
+  // Dar foco ao container do mapa
+  focusOnContainer() {
+  	const container = this.mapRef.current._container;
+  	container.focus();
+  }
+  
+  // Pula o controle de filtros
 
   render() {
-  	if(!this.attributionAdded)
-  		this.addAttribution();
+  	if(!this.attributionAdded && this.mapRef) {
+  		this.addMapListeners();
+  		this.addMapAttribution();
+  	}
   		
     return (
       <MapContainer
@@ -280,6 +365,8 @@ export class Mapa extends React.Component {
         <FilterControl
         	clickHandler={this.backFilter}
         	ref={this.controlRef}
+        	focusOnMarker={this.focusOnMarker}
+        	focusOnContainer={this.focusOnContainer}
         />
         { this.renderMarkers() }
       </MapContainer>

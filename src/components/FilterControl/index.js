@@ -14,8 +14,11 @@ class FilterControl extends React.Component {
     super(props);
     
   	this.state = {
-  		searchFilters: []
+  		searchFilters: [],
+  		fromLastMarker: false
   	};
+  	
+  	this.shiftDown = false;
   }
 
   createButtonControl() {
@@ -23,7 +26,42 @@ class FilterControl extends React.Component {
       onAdd: (map) => {
         const helpDiv = L.DomUtil.create("button", "");
         this.helpDiv = helpDiv;
+        
+        // Listeners
         helpDiv.addEventListener("click", this.props.clickHandler);
+        helpDiv.addEventListener("keydown", (e) => {
+        	if (e.key === 'Shift') {
+        		this.shiftDown = true;
+        	}
+        	
+        	// Gerenciar tecla Tab
+        	if (e.key === 'Tab' && !this.shiftDown) {
+        		// Se não tiver recebido foco do último marcador,
+        		// colocar foco no primeiro marcador
+        		if (!this.state.fromLastMarker) {
+        			this.props.focusOnMarker();
+        			e.preventDefault();
+        		}
+        		
+        		// Se tiver recebido foco do último marcador,
+        		// prosseguir com o comportamento normal
+        		else
+        			this.setState({fromLastMarker: false});
+        	}
+        	
+        	// Shift-Tab: Colocar foco no container do mapa
+        	if (e.key === 'Tab' && this.shiftDown) {
+        		this.props.focusOnContainer();
+        		this.shiftDown = false;
+        		e.preventDefault();
+        	}
+        });
+        helpDiv.addEventListener("keyup", (e) => {
+        	if (e.key === 'Shift') {
+        		this.shiftDown = false;
+        	}
+        });
+        
         helpDiv.hidden = true;
         return helpDiv;
       }
@@ -74,7 +112,7 @@ class FilterControl extends React.Component {
     else {
     	this.helpDiv.setAttribute("tabindex", "-1");    	
     }
-    	
+        	
     return null;
   }
 }
