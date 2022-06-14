@@ -13,6 +13,9 @@ export class PaginaMapa extends React.Component {
     this.changeBrightness = this.changeBrightness.bind(this);
     this.changeColorScheme = this.changeColorScheme.bind(this);
     this.updateMap = this.updateMap.bind(this);
+    this.resetFilters = this.resetFilters.bind(this);
+    
+    this.mapComponent = React.createRef();
 
     this.state = {
       contrast: 100,
@@ -25,12 +28,13 @@ export class PaginaMapa extends React.Component {
   render() {
     return (
       <div>
-        <Mapa updateMap={this.updateMap} />
+        <Mapa updateMap={this.updateMap} ref={this.mapComponent} />
         <MenuMapa
           changeZoom={this.changeZoom}
           changeContrast={this.changeContrast}
           changeBrightness={this.changeBrightness}
           changeColorScheme={this.changeColorScheme}
+          resetFilters={this.resetFilters}
         />
       </div>
     );
@@ -69,7 +73,9 @@ export class PaginaMapa extends React.Component {
       ? this.state.mapRef.current.zoomIn(1)
       : this.state.mapRef.current.zoomOut(1);
 
-    reset ? this.state.mapRef.zoom(0) : console.log("nada");
+	if (reset) {
+    	this.mapComponent.current.state.resetView();
+    }
   }
 
   /* Aumenta ou diminui o contraste em 10%. Se increase = true,
@@ -119,6 +125,17 @@ export class PaginaMapa extends React.Component {
         throw new Error("Esquema de cores não definido");
     }
   }
+  
+  /* Reinicia os filtros aos valores iniciais. */
+  resetFilters() {
+  	this.setState({
+  		contrast: 100,
+      	brightness: 100,
+      	grayscale: 0,
+  	}, () => {
+  		this.applyFilters(true);
+  	});
+  }
 
   /* Atualiza os objetos de referência ao mapa */
   updateMap(newMap) {
@@ -127,14 +144,19 @@ export class PaginaMapa extends React.Component {
     });
   }
 
-  /* Aplica os filtros atuais ao mapa. */
-  applyFilters() {
+  /* Aplica os filtros atuais ao mapa.
+  	resetView: Se verdadeiro, reinicia o mapa à sua localização e
+  	zoom iniciais. */
+  applyFilters(resetView) {
     const contrast = this.state.contrast;
     const brightness = this.state.brightness;
     const grayscale = this.state.grayscale;
     let filteredMap = this.state.mapRef;
 
     filteredMap.current._container.style.filter = `contrast(${contrast}%) brightness(${brightness}%) grayscale(${grayscale}%)`;
-    this.setState({ mapRef: filteredMap });
+    this.setState({ mapRef: filteredMap }, () => {
+    	if (resetView)
+    		this.mapComponent.current.state.resetView();
+    });
   }
 }

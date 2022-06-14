@@ -117,13 +117,7 @@ export class MenuMapa extends React.Component {
               <p>&nbsp;</p>
               <ButtonGroup variant="contained">
                 <Button
-                  onClick={() => {
-                    const delta = 0;
-                    this.props.changeBrightness(delta);
-                    this.props.changeContrast(delta);
-                    this.props.changeColorScheme("padrão");
-                    this.props.changeZoom(false, true);
-                  }}
+                  onClick={this.props.resetFilters}
                 >
                   Voltar aos valores originais
                 </Button>

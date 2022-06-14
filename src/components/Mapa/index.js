@@ -23,6 +23,7 @@ import markerIcon2x from "./marker-icon-2x.png";
 const TOKEN_MAPBOX = process.env.REACT_APP_TOKEN_MAPBOX;
 
 // Variáveis de configuração
+const INITIAL_CENTER = [-14.235, -51.9253];
 const DEFAULT_ZOOM = 4;
 const MAX_ZOOM = 14;
 const ZOOM_LEVELS = {
@@ -54,8 +55,6 @@ export class Mapa extends React.Component {
     // Binds necessários para reter o escopo da classe
     this.handlePopupOpen = this.handlePopupOpen.bind(this);
     this.handlePopupClose = this.handlePopupClose.bind(this);
-    this.saveToSessionStorage = this.saveToSessionStorage.bind(this);
-    this.mapLoaded = this.mapLoaded.bind(this);
     this.backFilter = this.backFilter.bind(this);
     this.focusOnMarker = this.focusOnMarker.bind(this);
     this.focusOnContainer = this.focusOnContainer.bind(this);
@@ -68,13 +67,11 @@ export class Mapa extends React.Component {
     
     // Objeto com registros de IES obtidos no banco de dados
     this.censo = [];
-        
-    // Restaurar estado do mapa da session storage, caso haja
-    const prevState = window.sessionStorage.getItem('state');
-    this.state = JSON.parse(prevState) || {
-    	center: null,
-    	zoom: null,
-    	searchFilters: []
+    
+    // Estado do mapa
+    this.state = {
+    	searchFilters: [],
+    	resetView: this.resetView.bind(this)
     };
   }
   
@@ -102,38 +99,16 @@ export class Mapa extends React.Component {
       }
     };
     
-    this.saveToSessionStorage();
   }
 
   /* Devolve o foco ao Marker após fechar o Popup e recentraliza
   o mapa. */
   handlePopupClose(e) {
+  	if(!e.popup._source._icon)
+  		return null;
     e.popup._source._icon.focus();
     e.popup._source._map.panTo(this.previousCenter);
     this.previousCenter = null;
-  }
-
-  // Método chamado após carregar o mapa
-  mapLoaded(e) {
-  	// Restaurar o estado do mapa, caso a informação tenha sido salva
-  	if (this.state.center && this.state.zoom)
-  		e.target.setView(JSON.parse(this.state.center), this.state.zoom);
-  	if (this.state.searchFilters.length === 2)
-  		this.retrieveIesEstado(this.state.searchFilters[1]);
-  }
-  
-  // Salva o estado do mapa em session storage
-  saveToSessionStorage() {
-  	const current = this.mapRef.current;
-  	
-  	if(current) {
-  		const newState = {
-  			center: JSON.stringify(current.getCenter()),
-  			zoom: current.getZoom(),
-  			searchFilters: this.state.searchFilters
-  		}
-  		window.sessionStorage.setItem('state', JSON.stringify(newState));
-  	}
   }
   
   /* Cria e retorna um L.divIcon para ser usado com Markers de
@@ -178,6 +153,14 @@ export class Mapa extends React.Component {
   	});
   	
   	return icon;
+  }
+  
+  // Retorna à visão geral com o zoom inicial
+  resetView() {
+  	this.setState({searchFilters: []}, () => {
+  		this.mapRef.current.setView(INITIAL_CENTER, DEFAULT_ZOOM);
+  		this.updateControl();
+  	});
   }
   
   // Retorna ao nível anterior de filtros de busca
@@ -335,8 +318,6 @@ export class Mapa extends React.Component {
   	container.focus();
   }
   
-  // Pula o controle de filtros
-
   render() {
   	if(!this.attributionAdded && this.mapRef) {
   		this.addMapListeners();
@@ -345,13 +326,12 @@ export class Mapa extends React.Component {
   		
     return (
       <MapContainer
-        center={[-14.235, -51.9253]}
+        center={INITIAL_CENTER}
         zoom={DEFAULT_ZOOM}
         scrollWheelZoom={true}
         zoomControl={false}
         attributionControl={false}
         ref={this.mapRef}
-        whenReady={this.mapLoaded}
         data-testid="map-container"
       >
         <TileLayer
