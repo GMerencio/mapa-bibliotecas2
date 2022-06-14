@@ -25,13 +25,13 @@ export class PaginaMapa extends React.Component {
   render() {
     return (
       <div>
+        <Mapa updateMap={this.updateMap} />
         <MenuMapa
           changeZoom={this.changeZoom}
           changeContrast={this.changeContrast}
           changeBrightness={this.changeBrightness}
           changeColorScheme={this.changeColorScheme}
         />
-        <Mapa updateMap={this.updateMap} />
       </div>
     );
   }

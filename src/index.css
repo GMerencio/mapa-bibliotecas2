@@ -11,8 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
-/* removendo links no canto inferior direito, para  */
-.leaflet-bottom {
-  display: none;
-}

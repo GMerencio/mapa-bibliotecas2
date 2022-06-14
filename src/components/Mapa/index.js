@@ -58,6 +58,9 @@ export class Mapa extends React.Component {
     this.mapLoaded = this.mapLoaded.bind(this);
     this.backFilter = this.backFilter.bind(this);
     
+    // Indica se o controle de atribuição foi adicionado ao mapa
+    this.attributionAdded = false;
+    
     // Objeto com registros de IES obtidos no banco de dados
     this.censo = [];
         
@@ -228,25 +231,42 @@ export class Mapa extends React.Component {
       });
   }
   
+  // Atualiza o controle de filtros
   updateControl() {
   	if (this.controlRef.current) {
   		this.controlRef.current.setState({searchFilters: this.state.searchFilters})
   	}
   }
+  
+  // Adiciona um controle de atribuição ao mapa
+  addAttribution() {
+  	if (!this.mapRef)
+  		return null;
+  	if (!this.mapRef.current)
+  		return null;
+  	
+  	let attribution = new L.Control.Attribution({prefix: false});
+  	attribution.addAttribution('<a aria-hidden="true" tabindex="-1" href="https://leafletjs.com/">Leaflet</a> | &copy; <a aria-hidden="true" tabindex="-1" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | &copy; <a aria-hidden="true" tabindex="-1" href="https://www.mapbox.com/">Mapbox</a>');
+  	this.mapRef.current.addControl(attribution);
+  	this.attributionAdded = true;
+  }
 
-  render() {  	
+  render() {
+  	if(!this.attributionAdded)
+  		this.addAttribution();
+  		
     return (
       <MapContainer
         center={[-14.235, -51.9253]}
         zoom={DEFAULT_ZOOM}
         scrollWheelZoom={true}
         zoomControl={false}
+        attributionControl={false}
         ref={this.mapRef}
         whenReady={this.mapLoaded}
         data-testid="map-container"
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
           url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${TOKEN_MAPBOX}`}
           tileSize={512}
           zoomOffset={-1}
