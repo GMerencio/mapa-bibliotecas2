@@ -241,6 +241,7 @@ export class Mapa extends React.Component {
         zoomControl={false}
         ref={this.mapRef}
         whenReady={this.mapLoaded}
+        data-testid="map-container"
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
