@@ -82,7 +82,9 @@ export class Mapa extends React.Component {
   /* Coloca o foco no Popup aberto e adiciona listeners adequados
   para fins de acessibilidade. */
   handlePopupOpen(e) {
-    this.previousCenter = e.popup._source._map.getCenter();    
+    this.previousCenter = e.popup._source._map.getCenter();
+    const closeBtn = e.popup._container.querySelector('.leaflet-popup-close-button');
+    closeBtn.setAttribute("aria-label", "Fechar popup");   
     e.popup._container.tabIndex = "0";
     e.popup._container.focus();
     
