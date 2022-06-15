@@ -1,0 +1,17 @@
+.section-container {
+	border-radius: 10px;
+	border-style: solid;
+	border-color: #000;
+	border-width: 1px;
+	background-color: #fff;
+	margin: 0.9rem;
+	padding: 0.4rem;
+}
+
+.section-header {
+	font-size: 3rem;
+}
+
+#mapaIframe {
+	width: 100%;
+}
