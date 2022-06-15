@@ -1,13 +1,22 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Mapa from './index';
+import { Mapa } from './index';
 
 afterEach(cleanup);
 
-test('Mapa renderizado corretamente', () => {
-	const { getByTestId } = render(<Mapa updateMap={() => {}} />);
+test('Mapa montado corretamente', () => {
+	render(<Mapa updateMap={() => {}} />);
 	
-	console.log(getByTestId('mapa-container'));
-	expect(getByTestId('mapa-container')).toBeInTheDocument();
+	const map = document.querySelector('.leaflet-container');
+	expect(map).toBeInTheDocument();
+});
+
+test('Mapa atualiza corretamente após ser montado', () => {
+	let updated = false;
+	render(<Mapa updateMap={() => {
+		updated = true;
+	}} />);
+	
+	expect(updated).toBe(true);
 });

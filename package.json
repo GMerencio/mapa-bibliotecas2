@@ -32,6 +32,11 @@
     "test-API": "node --experimental-vm-modules node_modules/jest/bin/jest.js ./tests-backend --verbose --runInBand --forceExit",
     "eject": "react-scripts eject"
   },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-leaflet|@react-leaflet)).*\\.js$"
+    ]
+  },
   "eslintConfig": {
     "extends": [
       "react-app",

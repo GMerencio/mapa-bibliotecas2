@@ -332,7 +332,6 @@ export class Mapa extends React.Component {
         zoomControl={false}
         attributionControl={false}
         ref={this.mapRef}
-        data-testid="map-container"
       >
         <TileLayer
           url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${TOKEN_MAPBOX}`}
