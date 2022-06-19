@@ -2,8 +2,11 @@
 em uma página. */
 
 import React from "react";
+import Fab from '@mui/material/Fab';
+import HelpIcon from '@mui/icons-material/Help';
 import { Mapa } from "../Mapa";
 import { MenuMapa } from "../MenuMapa";
+import { TutorialDialog } from "../TutorialDialog";
 
 export class PaginaMapa extends React.Component {
   constructor() {
@@ -14,20 +17,42 @@ export class PaginaMapa extends React.Component {
     this.changeColorScheme = this.changeColorScheme.bind(this);
     this.updateMap = this.updateMap.bind(this);
     this.resetFilters = this.resetFilters.bind(this);
+    this.openTutorial = this.openTutorial.bind(this);
+	this.closeTutorial = this.closeTutorial.bind(this);
     
     this.mapComponent = React.createRef();
 
+	const visitedBefore = localStorage.getItem('visitedBefore');
     this.state = {
       contrast: 100,
       brightness: 100,
       grayscale: 0,
-      mapRef: null,
+      openTutorial: visitedBefore ? false : true
     };
   }
-
+  
+  componentDidMount() {
+  	localStorage.setItem('visitedBefore', true);
+  }
+  
   render() {
     return (
       <div>
+      	<TutorialDialog
+      	 open={this.state.openTutorial}
+      	 onClose={this.closeTutorial}
+      	/>
+      	<Fab
+      	 color="primary"
+      	 aria-label="Ajuda"
+      	 onClick={this.openTutorial}
+      	 sx={{
+      	 	position: "fixed",
+      	 	right: 0
+      	 }}
+      	>
+        	<HelpIcon />
+      	</Fab>
         <Mapa updateMap={this.updateMap} ref={this.mapComponent} />
         <MenuMapa
           changeZoom={this.changeZoom}
@@ -38,6 +63,14 @@ export class PaginaMapa extends React.Component {
         />
       </div>
     );
+  }
+  
+  openTutorial() {
+  	this.setState({ openTutorial: true});
+  }
+  
+  closeTutorial() {
+  	this.setState({ openTutorial: false});
   }
 
   changeAttributes(attr, delta) {
