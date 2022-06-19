@@ -46,7 +46,7 @@ export class TutorialDialog extends React.Component {
     				inferior). Clicando em um marcador de instituição,
     				você tem acesso a um resumo das informações da
     				biblioteca e pode ir à página da instituição para
-    				ver mais detalhes.
+    				ver mais detalhes ou obter direções à instituição.
     				
     				<br /> <br />
     				O menu inferior exibe opções de controle de zoom,
