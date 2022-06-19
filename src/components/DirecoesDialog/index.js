@@ -17,6 +17,7 @@ export class DirecoesDialog extends React.Component {
   	
   	this.submit = this.submit.bind(this);
   	this.handleChange = this.handleChange.bind(this);
+  	this.getAddress = this.getAddress.bind(this);
   	
   	this.state = {
   		fromAddress: '',
@@ -28,6 +29,33 @@ export class DirecoesDialog extends React.Component {
   
   handleChange(e) {
   	this.setState({fromAddress: e.target.value});
+  }
+  
+  /* Obter a localização atual do usuário através das APIs Geolocation
+  e Nominatim, atualizando o campo de texto com o resultado. */
+  getAddress() {  	
+  	navigator.geolocation.getCurrentPosition(
+  	(pos) => {
+  		const lat = pos.coords.latitude;
+  		const lon = pos.coords.longitude;
+  		
+  		const options = {
+  			headers: {
+  				'Referer': 'https://mapa-bibliotecas.herokuapp.com/'
+  			}
+  		};
+  		
+  		fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`, options)
+      	.then(res => res.json())
+      	.then(jsonRes => {
+      		const full = jsonRes['address'];
+      		const address = `${full['road']}, ${full['suburb']}, ${full['city']}, ${full['postcode']}`;
+      		this.setState({fromAddress: address});
+      	});
+  	},
+  	(error) => {
+  		this.setState({fromAddress: 'Falha ao tentar obter endereço'});
+  	});  	
   }
 
   submit() {
@@ -46,7 +74,8 @@ export class DirecoesDialog extends React.Component {
     	 open={open}
     	 aria-labelledby="localizacao-title">
     		<DialogTitle id="localizacao-title">
-    			Insira o endereço de partida
+    			Insira o endereço de partida ou permita o preenchimento
+    			automático da sua localização atual.
     		</DialogTitle>
     		
     		<DialogContent>
@@ -63,6 +92,7 @@ export class DirecoesDialog extends React.Component {
     		</DialogContent>
     		
     		<DialogActions>
+    			<Button onClick={this.getAddress}>Obter localização atual</Button>
     			<Button onClick={this.submit}>Confirmar</Button>
     			<Button onClick={onClose}>Fechar</Button>
     		</DialogActions>
