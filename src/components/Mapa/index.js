@@ -9,6 +9,7 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 
 import FilterControl from '../FilterControl';
 import MarkerClusterGroup from '../MarkerClusterGroup';
+import { DirecoesDialog } from '../DirecoesDialog';
 
 // CSS, dados e scripts
 import "./style.css";
@@ -51,6 +52,7 @@ export class Mapa extends React.Component {
     this.popupRef = React.createRef();
     this.previousCenter = null;
     this.controlRef = React.createRef();
+    this.direcoesRef = React.createRef();
 
     // Binds necessários para reter o escopo da classe
     this.handlePopupOpen = this.handlePopupOpen.bind(this);
@@ -58,6 +60,7 @@ export class Mapa extends React.Component {
     this.backFilter = this.backFilter.bind(this);
     this.focusOnMarker = this.focusOnMarker.bind(this);
     this.focusOnContainer = this.focusOnContainer.bind(this);
+    this.closeDirecoes = this.closeDirecoes.bind(this);
     
     // Indica se o controle de atribuição foi adicionado ao mapa
     this.attributionAdded = false;
@@ -71,7 +74,8 @@ export class Mapa extends React.Component {
     // Estado do mapa
     this.state = {
     	searchFilters: [],
-    	resetView: this.resetView.bind(this)
+    	resetView: this.resetView.bind(this),
+    	direcoesOpen: false
     };
   }
   
@@ -101,6 +105,17 @@ export class Mapa extends React.Component {
     
     // Ocultar o controle de filtros para não atrapalhar a leitura
     this.controlRef.current.setState({hidden: true});
+  }
+  
+  /* Abre o componente de direções */
+  openDirecoes(address) {
+  	this.direcoesRef.current.setState({toAddress: address});
+  	this.setState({direcoesOpen: true});
+  }
+  
+  /* Fecha o componente de direções */
+  closeDirecoes() {
+  	this.setState({direcoesOpen: false});
   }
 
   /* Devolve o foco ao Marker após fechar o Popup e recentraliza
@@ -355,6 +370,11 @@ export class Mapa extends React.Component {
         	focusOnMarker={this.focusOnMarker}
         	focusOnContainer={this.focusOnContainer}
         />
+        <DirecoesDialog
+         open={this.state.direcoesOpen}
+         onClose={this.closeDirecoes}
+         ref={this.direcoesRef}
+        />
         { this.renderMarkers() }
       </MapContainer>
     );
@@ -470,6 +490,15 @@ export class Mapa extends React.Component {
                      }}                     
                     >
                       Ver cadastro da instituição
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="success"
+                      onClick={() => {
+                        this.openDirecoes(ies["end_completo_y"]);
+                      }}
+                    >
+                    	Obter direções
                     </Button>
                     <Button
                       variant="contained"
