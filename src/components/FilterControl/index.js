@@ -15,7 +15,8 @@ class FilterControl extends React.Component {
     
   	this.state = {
   		searchFilters: [],
-  		fromLastMarker: false
+  		fromLastMarker: false,
+  		hidden: false
   	};
   	
   	this.shiftDown = false;
@@ -85,7 +86,7 @@ class FilterControl extends React.Component {
   	
   	const filters = this.state.searchFilters;
     let txt = "";
-    let hidden = false;
+    let hidden = this.state.hidden;
     
     switch (filters.length) {
     	case 0:

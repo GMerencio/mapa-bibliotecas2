@@ -99,16 +99,21 @@ export class Mapa extends React.Component {
       }
     };
     
+    // Ocultar o controle de filtros para não atrapalhar a leitura
+    this.controlRef.current.setState({hidden: true});
   }
 
   /* Devolve o foco ao Marker após fechar o Popup e recentraliza
   o mapa. */
   handlePopupClose(e) {
+  	// Re-exibir controle de filtros
+    this.controlRef.current.setState({hidden: false});
+    
   	if(!e.popup._source._icon)
   		return null;
     e.popup._source._icon.focus();
     e.popup._source._map.panTo(this.previousCenter);
-    this.previousCenter = null;
+    this.previousCenter = null;    
   }
   
   /* Cria e retorna um L.divIcon para ser usado com Markers de
