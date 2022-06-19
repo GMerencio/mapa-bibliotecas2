@@ -122,7 +122,7 @@ export class Mapa extends React.Component {
   getDivIcon(txt, name, type, latLong) {
     // Construir o elemento HTML
     let divEl = L.DomUtil.create("div");
-    divEl.setAttribute("aria-label", name);
+    divEl.setAttribute("aria-label", `${name} tem ${txt} instituições`);
     divEl.setAttribute("tabIndex", "0");
     let spanEl = L.DomUtil.create("span", "", divEl);
     spanEl.innerHTML = txt;

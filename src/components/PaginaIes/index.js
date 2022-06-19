@@ -4,6 +4,7 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -59,7 +60,6 @@ class PaginaIes extends React.Component {
     	<div>
     		{/* Header */}
     		<Box
-    		 tabIndex="0"
     		 direction="column"
     		 sx={{
     	  		width: '100vw',
@@ -106,12 +106,13 @@ class PaginaIes extends React.Component {
     		>
     			{/* Informações da biblioteca */}
     			<Grid item xs={12} md={6}>
-    			  <div className="section-container">
+    			  <section className="section-container">
     			  	<Typography
     			  	 variant="h2"
     			  	 className="section-header">
     			  		Informações da biblioteca
     			  	</Typography>
+    			  	<Divider className="divider" />
     			  	<Typography>
                     	Quantidade de livros eletrônicos:{" "}
                     	{ies["QT_LIVRO_ELETRONICO"]}
@@ -148,7 +149,7 @@ class PaginaIes extends React.Component {
                     	Biblioteca participa de redes sociais?{" "}
                     	{ies["IN_PARTICIPA_REDE_SOCIAL"] === "0" ? "Não" : "Sim"}
                   	</Typography>
-                  </div>
+                  </section>
     			</Grid>
     			
     			<Grid
@@ -160,28 +161,30 @@ class PaginaIes extends React.Component {
     			>
     				{/* Informações administrativas */}
     				<Grid item xs={12} md={12}>
-    					<div className="section-container">
+    					<section className="section-container">
     						<Typography
     			  	 		 variant="h2"
     			  	 		 className="section-header">
     			  				Informações da instituição
     			  			</Typography>
+    			  			<Divider className="divider" />
     						<Typography>Ano do Censo: {ies["NU_ANO_CENSO"]}</Typography>
     						<Typography>Código da instituição: {ies["CO_IES"]}</Typography>
     						<Typography>Mantenedora: {ies["NO_MANTENEDORA"]}</Typography>
     						<Typography>Tipo da Organização Acadêmica: {tipoOrg}</Typography>
     						<Typography>Tipo da Categoria Administrativa: {catAdmin}</Typography>
-    					</div>
+    					</section>
     				</Grid>
     				
     				{/* Informações geográficas */}
     				<Grid item xs={12} md={12}>
-    					<div className="section-container">
+    					<section className="section-container">
     						<Typography
     			  	 		 variant="h2"
     			  	 		 className="section-header">
     			  				Informações geográficas
     			  			</Typography>
+    			  			<Divider className="divider" />
     						<Typography>Região: {ies["NO_REGIAO_IES"]}</Typography>
     						<Typography>Mesorregião: {ies["NO_MESORREGIAO_IES"]}</Typography>
     						<Typography>Microrregião: {ies["NO_MICRORREGIAO_IES"]}</Typography>
@@ -189,24 +192,24 @@ class PaginaIes extends React.Component {
     						<Typography>Município: {ies["NO_MUNICIPIO_IES"]}</Typography>
     						<Typography>Endereço: {ies["end_completo_y"]}</Typography>
     					
-    						<div class="mapouter">
-  								<div class="gmap_canvas">
+    						<div className="mapouter">
+  								<div className="gmap_canvas">
     								<iframe
     								title="mapa"
     							 	width="600"
     							 	height="500"
     							 	id="mapaIframe"
     							 	src={`https://maps.google.com/maps?q=${ies['end_completo_y']}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-    							 	frameborder="0"
+    							 	frameBorder="0"
     							 	scrolling="no"
-    							 	marginheight="0"
-    							 	marginwidth="0"
+    							 	marginHeight="0"
+    							 	marginWidth="0"
     								>
     								</iframe>
   								</div>
 							</div>
 
-    					</div>
+    					</section>
     				</Grid>
     			</Grid>
     		</Grid>

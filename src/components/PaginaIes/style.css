@@ -12,6 +12,14 @@
 	font-size: 3rem;
 }
 
+.divider {
+	margin-bottom: 0.8rem !important;
+}
+
+.mapouter {
+	margin-top: 0.8rem;
+}
+
 #mapaIframe {
 	width: 100%;
 }
