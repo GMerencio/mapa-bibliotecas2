@@ -67,4 +67,41 @@ iesRoute.route("/municipios/:co_municipio")
     		});
     });
 
+/* Endpoint api/ies (POST): Retorna, em JSON, os registros das IES
+correspondentes aos filtros de busca especificados no corpo 
+da requisição. */
+iesRoute.route("/")
+	.post((req, res) => {
+		const query = req.body;
+		const dbConnect = dbo.getDb();
+    	
+    	dbConnect
+    		.find(query)
+    		.toArray(function (err, result) {
+      			if (err) {
+        			res.status(400).send('Erro ao tentar obter registros');
+      			} else {
+        			res.json(result);
+      			}
+    		});
+	});
+
+/* Endpoint api/ies/qtd-ies (POST): Retorna, em JSON, a quantidade
+de IES correspondentes aos filtros de busca especificados no corpo 
+da requisição. O objeto de resposta tem a forma {qtd: <número>}. */
+iesRoute.route("/qtd-ies")
+	.post((req, res) => {
+		const query = req.body;
+		const dbConnect = dbo.getDb();
+    	
+    	dbConnect
+    		.countDocuments(query, function (err, result) {
+      			if (err) {
+        			res.status(400).send('Erro ao tentar obter registros');
+      			} else {
+        			res.json({'qtd': result});
+      			}
+    		});
+	});
+
 module.exports = iesRoute;

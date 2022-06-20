@@ -32,6 +32,36 @@ test('Teste do endpoint api/ies/municipios/{cod}', async () => {
     expect(resItem.body.length).toEqual(1);
 });
 
+test('Teste do endpoint api/ies', async () => {
+	const query = {
+		"NO_UF_IES": "Acre",
+		"TP_ORGANIZACAO_ACADEMICA":"3"
+	};
+	
+    const resItem = await request
+        .post('/api/ies')
+        .send(query)
+        .expect(200)
+        .expect('Content-Type', /application\/json/);
+        
+    expect(resItem.body.length).toEqual(6);
+});
+
+test('Teste do endpoint api/qtd-ies', async () => {
+	const query = {
+		"NO_UF_IES": "Acre",
+		"TP_ORGANIZACAO_ACADEMICA":"3"
+	};
+	
+    const resItem = await request
+        .post('/api/ies/qtd-ies')
+        .send(query)
+        .expect(200)
+        .expect('Content-Type', /application\/json/);
+    
+    expect(resItem.body.qtd).toEqual(6);
+});
+
 afterAll(async () => {
 	await closeDb();
 });
