@@ -6,6 +6,7 @@ import Fab from '@mui/material/Fab';
 import HelpIcon from '@mui/icons-material/Help';
 import { Mapa } from "../Mapa";
 import { MenuMapa } from "../MenuMapa";
+import { MenuBusca } from "../MenuBusca";
 import { TutorialDialog } from "../TutorialDialog";
 
 export class PaginaMapa extends React.Component {
@@ -53,6 +54,9 @@ export class PaginaMapa extends React.Component {
       	>
         	<HelpIcon />
       	</Fab>
+      	<MenuBusca
+      	  onSubmit={this.handleSearch}
+      	/>
         <Mapa updateMap={this.updateMap} ref={this.mapComponent} />
         <MenuMapa
           changeZoom={this.changeZoom}
@@ -71,6 +75,11 @@ export class PaginaMapa extends React.Component {
   
   closeTutorial() {
   	this.setState({ openTutorial: false});
+  }
+  
+  /* Acionado quando o usuário submete filtros de busca */
+  handleSearch(searchData) {
+  	console.log(searchData);
   }
 
   changeAttributes(attr, delta) {
