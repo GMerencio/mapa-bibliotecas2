@@ -347,7 +347,7 @@ export class Mapa extends React.Component {
   		return null;
   	
   	let attribution = new L.Control.Attribution({prefix: false});
-  	attribution.addAttribution('<a aria-hidden="true" tabindex="-1" href="https://leafletjs.com/">Leaflet</a> | &copy; <a aria-hidden="true" tabindex="-1" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | &copy; <a aria-hidden="true" tabindex="-1" href="https://www.mapbox.com/">Mapbox</a>');
+  	attribution.addAttribution('<a aria-hidden="true" tabindex="-1" href="https://leafletjs.com/">Leaflet</a> | &copy; <a aria-hidden="true" tabindex="-1" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | &copy; <a aria-hidden="true" tabindex="-1" href="https://www.mapbox.com/about/maps/">Mapbox</a> | <a aria-hidden="true" tabindex="-1" target="_blank" href="https://www.mapbox.com/map-feedback/"><strong>Improve this map</strong></a>');
   	this.mapRef.current.addControl(attribution);
   	this.attributionAdded = true;
   }
@@ -445,6 +445,14 @@ export class Mapa extends React.Component {
         attributionControl={false}
         ref={this.mapRef}
       >
+      	<a
+      	 href="http://mapbox.com/about/maps"
+      	 className='mapbox-logo'
+      	 target="_blank"
+      	 rel="noreferrer"
+      	>
+      	 	Mapbox
+      	</a>
         <TileLayer
           url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${TOKEN_MAPBOX}`}
           tileSize={512}
