@@ -62,8 +62,8 @@ export class Mapa extends React.Component {
     this.focusOnContainer = this.focusOnContainer.bind(this);
     this.closeDirecoes = this.closeDirecoes.bind(this);
     
-    // Indica se o controle de atribuição foi adicionado ao mapa
-    this.attributionAdded = false;
+    // Indica se os listeners foram adicionados ao mapa
+    this.listenersAdded = false;
     
     // Indica se a tecla Shift está pressionada
     this.shiftDown = false;
@@ -340,18 +340,7 @@ export class Mapa extends React.Component {
   		this.controlRef.current.setState({searchFilters: this.state.searchFilters})
   	}
   }
-  
-  // Adiciona um controle de atribuição ao mapa
-  addMapAttribution() {
-  	if (!this.mapRef.current)
-  		return null;
-  	
-  	let attribution = new L.Control.Attribution({prefix: false});
-  	attribution.addAttribution('<a aria-hidden="true" tabindex="-1" href="https://leafletjs.com/">Leaflet</a> | &copy; <a aria-hidden="true" tabindex="-1" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | &copy; <a aria-hidden="true" tabindex="-1" href="https://www.mapbox.com/about/maps/">Mapbox</a> | <a aria-hidden="true" tabindex="-1" target="_blank" href="https://www.mapbox.com/map-feedback/"><strong>Improve this map</strong></a>');
-  	this.mapRef.current.addControl(attribution);
-  	this.attributionAdded = true;
-  }
-  
+    
   // Adiciona listeners ao mapa
   addMapListeners() {
   	if (!this.mapRef.current)
@@ -405,6 +394,8 @@ export class Mapa extends React.Component {
   		if (e.key === 'Shift')
   			this.shiftDown = false;
   	});
+  	
+  	this.listenersAdded = true;
   }
   
   // Retorna foco ao primeiro Marker do mapa
@@ -431,9 +422,8 @@ export class Mapa extends React.Component {
   }
   
   render() {
-  	if(!this.attributionAdded && this.mapRef) {
+  	if(!this.listenersAdded && this.mapRef) {
   		this.addMapListeners();
-  		this.addMapAttribution();
   	}
   		
     return (
@@ -453,6 +443,15 @@ export class Mapa extends React.Component {
       	>
       	 	Mapbox
       	</a>
+      	<div className="leaflet-control-attribution leaflet-control">
+      		<a aria-hidden="true" tabIndex="-1" href="https://leafletjs.com/">Leaflet</a>
+      		&nbsp;| &copy;&nbsp;
+      		<a aria-hidden="true" tabIndex="-1" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>
+      		&nbsp;| &copy;&nbsp;
+      		<a aria-hidden="true" tabIndex="-1" href="https://www.mapbox.com/about/maps/">Mapbox</a>
+      		&nbsp;|&nbsp;
+      		<a aria-hidden="true" tabIndex="-1" target="_blank" rel="noreferrer" href="https://www.mapbox.com/map-feedback/"><strong>Improve this map</strong></a>
+        </div>
         <TileLayer
           url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${TOKEN_MAPBOX}`}
           tileSize={512}
