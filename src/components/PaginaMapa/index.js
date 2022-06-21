@@ -20,6 +20,7 @@ export class PaginaMapa extends React.Component {
     this.resetFilters = this.resetFilters.bind(this);
     this.openTutorial = this.openTutorial.bind(this);
 	this.closeTutorial = this.closeTutorial.bind(this);
+	this.handleSearch = this.handleSearch.bind(this);
     
     this.mapComponent = React.createRef();
 
@@ -79,7 +80,10 @@ export class PaginaMapa extends React.Component {
   
   /* Acionado quando o usuário submete filtros de busca */
   handleSearch(searchData) {
-  	console.log(searchData);
+  	this.mapComponent.current.setState(
+  		{searchObj: searchData},
+  		this.mapComponent.current.retrieveQtdIes
+  	);
   }
 
   changeAttributes(attr, delta) {

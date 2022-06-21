@@ -38,15 +38,15 @@ export class MenuBusca extends React.Component {
   	super(props);
   	
   	this.initialState = {
-  		capes: '',
-  		acessoOutrasBases: '',
-  		assinaOutrasBases: '',
-  		catalogoOnline: '',
-  		servicosInternet: '',
-  		buscaIntegrada: '',
-  		redeSocial: '',
-  		orgAcademica: [],
-  		categoriaAdmin: [],
+  		IN_ACESSO_PORTAL_CAPES: '',
+  		IN_ACESSO_OUTRAS_BASES: '',
+  		IN_ASSINA_OUTRA_BASE: '',
+  		IN_CATALOGO_ONLINE: '',
+  		IN_SERVICO_INTERNET: '',
+  		IN_BUSCA_INTEGRADA: '',
+  		IN_PARTICIPA_REDE_SOCIAL: '',
+  		TP_ORGANIZACAO_ACADEMICA: [],
+  		TP_CATEGORIA_ADMINISTRATIVA: [],
   		drawerOpen: false
   	};
   	
@@ -86,7 +86,7 @@ export class MenuBusca extends React.Component {
   			continue;
   		}
   		
-  		if (key === 'orgAcademica' || key === 'categoriaAdmin') {
+  		if (key === 'TP_ORGANIZACAO_ACADEMICA' || key === 'TP_CATEGORIA_ADMINISTRATIVA') {
   			const inObj = {
   				$in: this.state[key]
   			};
@@ -122,6 +122,20 @@ export class MenuBusca extends React.Component {
   			>
   				Opções de busca
   			</Button>
+  			
+  			<Button
+  			 variant="contained"
+  			 color="error"
+  			 onClick={() => {
+  			 	this.props.onSubmit({});
+  			 }}
+  			 sx={{
+  			 	marginLeft: '1rem',
+  			 }}
+  			>
+  				Limpar busca
+  			</Button>
+  			
   			<Drawer
   			 open={this.state.drawerOpen}
   			 onClose={this.closeDrawer}
@@ -145,15 +159,15 @@ export class MenuBusca extends React.Component {
     	   spacing={2}
     	  >
     	      <FormControl fullWidth={true}>
-    	      	<InputLabel id="capes-label">
-    	      		Acesso ao portal Capes
+    	      	<InputLabel id="IN_ACESSO_PORTAL_CAPES-label">
+    	      		Acesso ao portal CAPES
     	      	</InputLabel>
   			  	<Select
-    				labelId="capes-label"
-    				id="capes"
-    				name="capes"
-    				value={this.state.capes}
-    				label="Acesso ao portal Capes"
+    				labelId="IN_ACESSO_PORTAL_CAPES-label"
+    				id="IN_ACESSO_PORTAL_CAPES"
+    				name="IN_ACESSO_PORTAL_CAPES"
+    				value={this.state.IN_ACESSO_PORTAL_CAPES}
+    				label="Acesso ao portal CAPES"
     				onChange={this.handleChange}
   			  	>
     				<MenuItem value={''}><em>Vazio</em></MenuItem>
@@ -163,14 +177,14 @@ export class MenuBusca extends React.Component {
   			  </FormControl>
     	    
     	      <FormControl fullWidth>
-    	      	<InputLabel id="acessoOutrasBases-label">
+    	      	<InputLabel id="IN_ACESSO_OUTRAS_BASES-label">
     	      		Acesso a outras bases
     	      	</InputLabel>
   			  	<Select
-    				labelId="acessoOutrasBases-label"
-    				id="acessoOutrasBases"
-    				name="acessoOutrasBases"
-    				value={this.state.acessoOutrasBases}
+    				labelId="IN_ACESSO_OUTRAS_BASES-label"
+    				id="IN_ACESSO_OUTRAS_BASES"
+    				name="IN_ACESSO_OUTRAS_BASES"
+    				value={this.state.IN_ACESSO_OUTRAS_BASES}
     				label="Acesso a outras bases"
     				onChange={this.handleChange}
   			  	>
@@ -181,14 +195,14 @@ export class MenuBusca extends React.Component {
   			  </FormControl>
   			  
   			  <FormControl fullWidth>
-    	      	<InputLabel id="assinaOutrasBases-label">
+    	      	<InputLabel id="IN_ASSINA_OUTRA_BASE-label">
     	      		Assina outras bases
     	      	</InputLabel>
   			  	<Select
-    				labelId="assinaOutrasBases-label"
-    				id="assinaOutrasBases"
-    				name="assinaOutrasBases"
-    				value={this.state.assinaOutrasBases}
+    				labelId="IN_ASSINA_OUTRA_BASE-label"
+    				id="IN_ASSINA_OUTRA_BASE"
+    				name="IN_ASSINA_OUTRA_BASE"
+    				value={this.state.IN_ASSINA_OUTRA_BASE}
     				label="Assina outras bases"
     				onChange={this.handleChange}
   			  	>
@@ -199,14 +213,14 @@ export class MenuBusca extends React.Component {
   			  </FormControl>
   			  
   			  <FormControl fullWidth>
-    	      	<InputLabel id="catalogoOnline-label">
+    	      	<InputLabel id="IN_CATALOGO_ONLINE-label">
     	      		Tem catálogo online
     	      	</InputLabel>
   			  	<Select
-    				labelId="catalogoOnline-label"
-    				id="catalogoOnline"
-    				name="catalogoOnline"
-    				value={this.state.catalogoOnline}
+    				labelId="IN_CATALOGO_ONLINE-label"
+    				id="IN_CATALOGO_ONLINE"
+    				name="IN_CATALOGO_ONLINE"
+    				value={this.state.IN_CATALOGO_ONLINE}
     				label="Tem catálogo online"
     				onChange={this.handleChange}
   			  	>
@@ -217,14 +231,14 @@ export class MenuBusca extends React.Component {
   			  </FormControl>
   			  
   			  <FormControl fullWidth>
-    	      	<InputLabel id="buscaIntegrada-label">
+    	      	<InputLabel id="IN_BUSCA_INTEGRADA-label">
     	      		Tem busca integrada
     	      	</InputLabel>
   			  	<Select
-    				labelId="buscaIntegrada-label"
-    				id="buscaIntegrada"
-    				name="buscaIntegrada"
-    				value={this.state.buscaIntegrada}
+    				labelId="IN_BUSCA_INTEGRADA-label"
+    				id="IN_BUSCA_INTEGRADA"
+    				name="IN_BUSCA_INTEGRADA"
+    				value={this.state.IN_BUSCA_INTEGRADA}
     				label="Tem busca integrada"
     				onChange={this.handleChange}
   			  	>
@@ -235,14 +249,14 @@ export class MenuBusca extends React.Component {
   			  </FormControl>
   			  
   			  <FormControl fullWidth={true}>
-    	      	<InputLabel id="servicosInternet-label">
+    	      	<InputLabel id="IN_SERVICO_INTERNET-label">
     	      		Oferece serviços pela internet
     	      	</InputLabel>
   			  	<Select
-    				labelId="servicosInternet-label"
-    				id="servicosInternet"
-    				name="servicosInternet"
-    				value={this.state.servicosInternet}
+    				labelId="IN_SERVICO_INTERNET-label"
+    				id="IN_SERVICO_INTERNET"
+    				name="IN_SERVICO_INTERNET"
+    				value={this.state.IN_SERVICO_INTERNET}
     				label="Oferece serviços pela internet"
     				onChange={this.handleChange}
   			  	>
@@ -253,14 +267,14 @@ export class MenuBusca extends React.Component {
   			  </FormControl>
   			  
   			  <FormControl fullWidth={true}>
-    	      	<InputLabel id="redeSocial-label">
+    	      	<InputLabel id="IN_PARTICIPA_REDE_SOCIAL-label">
     	      		Participa de redes sociais
     	      	</InputLabel>
   			  	<Select
-    				labelId="redeSocial-label"
-    				id="redeSocial"
-    				name="redeSocial"
-    				value={this.state.redeSocial}
+    				labelId="IN_PARTICIPA_REDE_SOCIAL-label"
+    				id="IN_PARTICIPA_REDE_SOCIAL"
+    				name="IN_PARTICIPA_REDE_SOCIAL"
+    				value={this.state.IN_PARTICIPA_REDE_SOCIAL}
     				label="Participa de redes sociais"
     				onChange={this.handleChange}
   			  	>
@@ -271,14 +285,14 @@ export class MenuBusca extends React.Component {
   			  </FormControl>
   			  
   			  <FormControl fullWidth={true}>
-    	      	<InputLabel id="orgAcademica-label">
+    	      	<InputLabel id="TP_ORGANIZACAO_ACADEMICA-label">
     	      		Organização Acadêmica
     	      	</InputLabel>
   			  	<Select
-    				labelId="orgAcademica-label"
-    				id="orgAcademica"
-    				name="orgAcademica"
-    				value={this.state.orgAcademica}
+    				labelId="TP_ORGANIZACAO_ACADEMICA-label"
+    				id="TP_ORGANIZACAO_ACADEMICA"
+    				name="TP_ORGANIZACAO_ACADEMICA"
+    				value={this.state.TP_ORGANIZACAO_ACADEMICA}
     				label="Organização Acadêmica"
     				onChange={this.handleChange}
     				multiple
@@ -294,7 +308,7 @@ export class MenuBusca extends React.Component {
     						 value={key}
     						>
     							<Checkbox
-    							 checked={this.state.orgAcademica.indexOf(key) > -1}
+    							 checked={this.state.TP_ORGANIZACAO_ACADEMICA.indexOf(key) > -1}
     							/>
     							<ListItemText primary={value} />
     						</MenuItem>
@@ -304,14 +318,14 @@ export class MenuBusca extends React.Component {
   			  </FormControl>
   			  
   			  <FormControl fullWidth={true}>
-    	      	<InputLabel id="categoriaAdmin-label">
+    	      	<InputLabel id="TP_CATEGORIA_ADMINISTRATIVA-label">
     	      		Categoria Administrativa
     	      	</InputLabel>
   			  	<Select
-    				labelId="categoriaAdmin-label"
-    				id="categoriaAdmin"
-    				name="categoriaAdmin"
-    				value={this.state.categoriaAdmin}
+    				labelId="TP_CATEGORIA_ADMINISTRATIVA-label"
+    				id="TP_CATEGORIA_ADMINISTRATIVA"
+    				name="TP_CATEGORIA_ADMINISTRATIVA"
+    				value={this.state.TP_CATEGORIA_ADMINISTRATIVA}
     				label="Categoria Administrativa"
     				onChange={this.handleChange}
     				multiple
@@ -327,7 +341,7 @@ export class MenuBusca extends React.Component {
     						 value={key}
     						>
     							<Checkbox
-    							 checked={this.state.categoriaAdmin.indexOf(key) > -1}
+    							 checked={this.state.TP_CATEGORIA_ADMINISTRATIVA.indexOf(key) > -1}
     							/>
     							<ListItemText primary={value} />
     						</MenuItem>

@@ -75,7 +75,9 @@ export class Mapa extends React.Component {
     this.state = {
     	searchFilters: [],
     	resetView: this.resetView.bind(this),
-    	direcoesOpen: false
+    	direcoesOpen: false,
+    	searchObj: {},
+    	qtdIesDb: {}
     };
   }
   
@@ -147,24 +149,26 @@ export class Mapa extends React.Component {
     let spanEl = L.DomUtil.create("span", "", divEl);
     spanEl.innerHTML = txt;
     
-    // Adicionar listeners    
-    divEl.addEventListener("mouseup", () => {
-    	this.applySearchFilter(
-    		type,
-            latLong,
-            name
-        );
-    });
-    
-    divEl.addEventListener("keyup", (e) => {
-    	if(e.key === "Enter") {
+    // Adicionar listeners, caso haja elementos
+    if (parseInt(txt) !== 0) {
+    	divEl.addEventListener("mouseup", () => {
     		this.applySearchFilter(
     			type,
             	latLong,
             	name
         	);
-        }
-    });
+    	});
+    	
+    	divEl.addEventListener("keyup", (e) => {
+    		if(e.key === "Enter") {
+    			this.applySearchFilter(
+    				type,
+            		latLong,
+            		name
+        		);
+        	}
+    	});
+    }
     
     // Construir ícone com o elemento HTML
   	const icon = L.divIcon({
@@ -198,6 +202,7 @@ export class Mapa extends React.Component {
   	}
   	currentFilters.pop();
   	this.setState({searchFilters: currentFilters}, () => {
+  		this.retrieveQtdIes();
   		this.updateControl();
   		this.focusOnMarker();
   	});
@@ -215,9 +220,6 @@ export class Mapa extends React.Component {
   	
   	if(!(type in ZOOM_LEVELS))
   		return null;
-  		
-  	if(type === "estado")
-  		this.retrieveIesEstado(name);
   	
   	if(latLong)
   		this.mapRef.current.setView(latLong, ZOOM_LEVELS[type]);
@@ -225,21 +227,111 @@ export class Mapa extends React.Component {
   		this.mapRef.current.setZoom(ZOOM_LEVELS[type]);
   	
     currentFilters.push(name);
-    this.setState({searchFilters: currentFilters}, this.updateControl);
+  	
+    this.setState({searchFilters: currentFilters}, () => {
+    	this.retrieveQtdIes();
+    	this.updateControl();
+    });
   }
   
   /* Obtém as IES situadas no estado especificado e as armazena em
   this.censo. */
   retrieveIesEstado(nomeEstado) {
     const currentFilters = this.state.searchFilters;
+    if (currentFilters.length !== 2)
+    	return null;
     const estadoObj = filters[currentFilters[0]]['estados'][nomeEstado];
+    const searchObj = this.state.searchObj;
     
-  	return fetch(`/api/ies/estados/${estadoObj['CO_UF_IES']}`)
+    // Caso 1: Não há opções de busca especificadas. Requisição GET
+    if (Object.keys(searchObj).length === 0) {
+  		return fetch(`/api/ies/estados/${estadoObj['CO_UF_IES']}`)
+      		.then(res => res.json())
+      		.then(jsonRes => {
+      			this.censo = jsonRes;
+      			this.setState(this.state); // Forçar atualização
+      	});
+    }
+    
+    // Caso 1: Há opções de busca especificadas. Requisição POST
+    searchObj['NO_UF_IES'] = nomeEstado;
+    const options = {
+  		method: 'POST',
+  		headers: {
+  			'Content-Type': 'application/json'
+    	},
+    	body: JSON.stringify(searchObj)
+  	};
+  	
+  	return fetch('/api/ies', options)
       .then(res => res.json())
       .then(jsonRes => {
       	this.censo = jsonRes;
       	this.setState(this.state); // Forçar atualização
       });
+  }
+  
+  /* Obtém a quantidade de IES das regiões ou estados exibidos
+  no momento do BD. */
+  retrieveQtdIes() {
+  	const searchObj = this.state.searchObj;
+  	const qtdIes = this.state.qtdIesDb;
+  	const searchFilters = this.state.searchFilters;
+  	
+  	// Objeto iterativo contendo as regiões ou estados
+  	let iter = {};
+  	
+  	// Campo correspondente à unidade (região ou estado)
+  	let field = '';
+  	
+  	// Remover parâmetros de estado/região
+  	if ('NO_REGIAO_IES' in searchObj)
+  		delete searchObj['NO_REGIAO_IES'];
+  	if ('NO_UF_IES' in searchObj)
+  		delete searchObj['NO_UF_IES'];
+  	
+  	// Mapa está no nível de estado; chamar retrieveIesEstado e sair
+  	if (searchFilters.length === 2)
+  		return this.retrieveIesEstado(searchFilters[1]);
+  	
+  	// Não há opções de busca; não fazer nada
+  	if (Object.keys(searchObj).length === 0)
+  		return null;
+  	
+  	switch (searchFilters.length) {
+  		case 0:
+  			iter = Object.keys(filters);
+  			field = 'NO_REGIAO_IES';
+  			break;
+  		case 1:
+  			const regiao = searchFilters[0];
+  			iter = Object.keys(filters[regiao]['estados']);
+  			field = 'NO_UF_IES';
+  			searchObj['NO_REGIAO_IES'] = regiao;
+  			break;
+  		default:
+  			return null;
+  	}
+  	
+  	let options = {};
+  	for (const key of iter) {
+  		searchObj[field] = key;
+  		
+  		options = {
+  			method: 'POST',
+  			headers: {
+  				'Content-Type': 'application/json'
+    		},
+    		body: JSON.stringify(searchObj)
+  		};
+  		
+  		fetch('/api/ies/qtd-ies', options)
+      		.then(res => res.json())
+      		.then(jsonRes => {
+      			qtdIes[key] = jsonRes['qtd'];
+      			this.setState({qtdIesDb: qtdIes});
+      	});
+  	}
   }
   
   // Atualiza o controle de filtros
@@ -384,17 +476,19 @@ export class Mapa extends React.Component {
   acordo com os filtros de busca atuais. */
   renderMarkers() {
   	const currentFilters = this.state.searchFilters;
+  	const searchDb = Object.keys(this.state.searchObj).length > 0;
+  	const qtdIesDb = searchDb ? this.state.qtdIesDb : {};
   	
   	switch(currentFilters.length) {
   		// Nível 0: regiões
-  		case 0:
+  		case 0:  		  
   		  return (Object.entries(filters).map(([key, val]) => (
   		  	<Marker
   		  	  position={[val.lat, val.long]}
   		  	  key={key}
   		  	  title={key}
   		  	  keyboard={false}
-              icon={this.getDivIcon(val['qtd_ies'], key, 'região', [val.lat, val.long])}
+              icon={this.getDivIcon(qtdIesDb[key] !== undefined ? qtdIesDb[key] : val['qtd_ies'], key, 'região', [val.lat, val.long])}
   		  	>
   		  	</Marker>
   		  )));
@@ -402,6 +496,7 @@ export class Mapa extends React.Component {
   		// Nível 1: estados
   		case 1:
   		  const regiao = currentFilters[0];
+  		    		  
   		  return (Object.entries(filters[regiao]['estados']).map(
   		  ([key, val]) => (
   		  	<Marker
@@ -409,7 +504,7 @@ export class Mapa extends React.Component {
   		  	  key={key}
   		  	  title={key}
   		  	  keyboard={false}
-              icon={this.getDivIcon(val['qtd_ies'], key, 'estado', [val.lat, val.long])}
+              icon={this.getDivIcon(qtdIesDb[key] !== undefined ? qtdIesDb[key] : val['qtd_ies'], key, 'estado', [val.lat, val.long])}
   		  	>
   		  	</Marker>
   		  )));
