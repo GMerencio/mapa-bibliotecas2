@@ -49,6 +49,16 @@ export class TutorialDialog extends React.Component {
     				ver mais detalhes ou obter direções à instituição.
     				
     				<br /> <br />
+    				Clicando no botão "Opções de busca", você pode
+    				filtrar as instituições de acordo com suas
+    				características. Após selecionar as opções
+    				desejadas, clique em "Buscar" para confirmar,
+    				"Limpar" para reiniciar os filtros e "Fechar"
+    				para sair. O botão "Limpar busca", ao lado do
+    				botão de "Opções de busca", remove os filtros
+    				de busca.
+    				
+    				<br /> <br />
     				O menu inferior exibe opções de controle de zoom,
     				brilho, contraste e esquema de cores do mapa.
     				O botão "Voltar aos valores originais" reinicia
