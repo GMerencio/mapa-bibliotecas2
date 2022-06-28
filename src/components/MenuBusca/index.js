@@ -32,6 +32,16 @@ const CATEGORIA_ADMIN = {
 	'9': 'Privada confessional'
 };
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MENU_PROPS = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+    },
+  },
+};
+
 export class MenuBusca extends React.Component {
 
   constructor(props) {
@@ -169,6 +179,7 @@ export class MenuBusca extends React.Component {
     				value={this.state.IN_ACESSO_PORTAL_CAPES}
     				label="Acesso ao portal CAPES"
     				onChange={this.handleChange}
+    				MenuProps={MENU_PROPS}
   			  	>
     				<MenuItem value={''}><em>Vazio</em></MenuItem>
     				<MenuItem value={"1"}>Sim</MenuItem>
@@ -187,6 +198,7 @@ export class MenuBusca extends React.Component {
     				value={this.state.IN_ACESSO_OUTRAS_BASES}
     				label="Acesso a outras bases"
     				onChange={this.handleChange}
+    				MenuProps={MENU_PROPS}
   			  	>
     				<MenuItem value={''}><em>Vazio</em></MenuItem>
     				<MenuItem value={"1"}>Sim</MenuItem>
@@ -205,6 +217,7 @@ export class MenuBusca extends React.Component {
     				value={this.state.IN_ASSINA_OUTRA_BASE}
     				label="Assina outras bases"
     				onChange={this.handleChange}
+    				MenuProps={MENU_PROPS}
   			  	>
     				<MenuItem value={''}><em>Vazio</em></MenuItem>
     				<MenuItem value={"1"}>Sim</MenuItem>
@@ -223,6 +236,7 @@ export class MenuBusca extends React.Component {
     				value={this.state.IN_CATALOGO_ONLINE}
     				label="Tem catálogo online"
     				onChange={this.handleChange}
+    				MenuProps={MENU_PROPS}
   			  	>
     				<MenuItem value={''}><em>Vazio</em></MenuItem>
     				<MenuItem value={"1"}>Sim</MenuItem>
@@ -241,6 +255,7 @@ export class MenuBusca extends React.Component {
     				value={this.state.IN_BUSCA_INTEGRADA}
     				label="Tem busca integrada"
     				onChange={this.handleChange}
+    				MenuProps={MENU_PROPS}
   			  	>
     				<MenuItem value={''}><em>Vazio</em></MenuItem>
     				<MenuItem value={"1"}>Sim</MenuItem>
@@ -259,6 +274,7 @@ export class MenuBusca extends React.Component {
     				value={this.state.IN_SERVICO_INTERNET}
     				label="Oferece serviços pela internet"
     				onChange={this.handleChange}
+    				MenuProps={MENU_PROPS}
   			  	>
     				<MenuItem value={''}><em>Vazio</em></MenuItem>
     				<MenuItem value={"1"}>Sim</MenuItem>
@@ -277,6 +293,7 @@ export class MenuBusca extends React.Component {
     				value={this.state.IN_PARTICIPA_REDE_SOCIAL}
     				label="Participa de redes sociais"
     				onChange={this.handleChange}
+    				MenuProps={MENU_PROPS}
   			  	>
     				<MenuItem value={''}><em>Vazio</em></MenuItem>
     				<MenuItem value={"1"}>Sim</MenuItem>
@@ -295,6 +312,7 @@ export class MenuBusca extends React.Component {
     				value={this.state.TP_ORGANIZACAO_ACADEMICA}
     				label="Organização Acadêmica"
     				onChange={this.handleChange}
+    				MenuProps={MENU_PROPS}
     				multiple
     				renderValue={(selected) =>
     					selected.map((key) => ORG_ACADEMICA[key]).join(', ')
@@ -328,6 +346,7 @@ export class MenuBusca extends React.Component {
     				value={this.state.TP_CATEGORIA_ADMINISTRATIVA}
     				label="Categoria Administrativa"
     				onChange={this.handleChange}
+    				MenuProps={MENU_PROPS}
     				multiple
     				renderValue={(selected) =>
     					selected.map((key) => CATEGORIA_ADMIN[key]).join(', ')
