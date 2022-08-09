@@ -46,7 +46,7 @@ Configure e salve o arquivo como `.env` na raiz do projeto. Agora basta executar
 
 ## Setup (back end)
 
-Após executar `npm install` e configurar o arquivo `.env`, execute `npm start` para iniciar o servidor Node localmente. Note que `npm run dev` já inicia o servidor Node local junto com o servidor de desenvolvimento, então use esse comando se quiser iniciar apenas o servidor Node. Caso necessário, execute `npm build` antes desse comando para gerar uma aplicação React estática na pasta `build`.
+Após executar `npm install` e configurar o arquivo `.env`, execute `npm run start` para iniciar o servidor Node localmente. Note que `npm run dev` já inicia o servidor Node local junto com o servidor de desenvolvimento, então use esse comando se quiser iniciar apenas o servidor Node. Caso necessário, execute `npm run build` antes desse comando para gerar uma aplicação React estática na pasta `build`.
 
 ## Testes
 
