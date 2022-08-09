@@ -2,7 +2,7 @@
 
 Projeto referente à disciplina PJI310 - Projeto Integrador em Computação III da Univesp. Trata-se de uma aplicação web que visa mapear as bibliotecas universitárias do Brasil e divulgar indicadores quantitativos e de serviços, dando continuidade ao [projeto do semestre anterior](https://github.com/GMerencio/mapa-bibliotecas).
 
-Aplicação em funcionamento: [Mapeamento de Bibliotecas](https://mapa-bibliotecas.herokuapp.com/)
+Aplicação em funcionamento: [Mapeamento de Bibliotecas](https://mapa-bibliotecas2.herokuapp.com/)
 
 ## Tecnologias
 
@@ -54,4 +54,3 @@ Execute os testes com os comandos `npm run test-react` (testes do front end) e `
 
 ## Deploy (Heroku)
 
-Para fazer o deploy da aplicação no Heroku, [siga estas instruções para instalar o Heroku](https://devcenter.heroku.com/articles/heroku-cli). Em seguida, execute `heroku git:remote -a mapa-bibliotecas2` na pasta do projeto. Agora basta fazer um commit e executar `git push heroku main`.
