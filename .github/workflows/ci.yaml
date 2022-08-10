@@ -7,12 +7,12 @@ on:
     branches: [ main ]
 
 env:
-  MONGODB_USERNAME: admin
-  MONGODB_PASSWORD: mapa-bibliotecas-PI-2022
-  MONGODB_CLUSTER: mapa-cluster
-  MONGODB_DATABASE: bibliotecas-db
-  MONGODB_COLLECTION: censo2020
-  REACT_APP_TOKEN_MAPBOX: pk.eyJ1IjoiZ21lcmVuY2lvIiwiYSI6ImNsMjgyYTVxODA1OXUzZG56emppeHFkd2wifQ.5NMbrQod0tTYWB0CnqqEmA
+  MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+  MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+  MONGODB_CLUSTER: ${{ secrets.MONGODB_CLUSTER }}
+  MONGODB_DATABASE: ${{ secrets.MONGODB_DATABASE }}
+  MONGODB_COLLECTION: ${{ secrets.MONGODB_COLLECTION }}
+  REACT_APP_TOKEN_MAPBOX: ${{ secrets.REACT_APP_TOKEN_MAPBOX }}
 
 jobs:
   build:
