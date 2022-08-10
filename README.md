@@ -1,5 +1,7 @@
 # mapa-bibliotecas2
 
+[![Node.js CI](https://github.com/GMerencio/mapa-bibliotecas2/actions/workflows/ci.yaml/badge.svg?branch=main&event=push)](https://github.com/GMerencio/mapa-bibliotecas2/actions/workflows/ci.yaml)
+
 Projeto referente à disciplina PJI310 - Projeto Integrador em Computação III da Univesp. Trata-se de uma aplicação web que visa mapear as bibliotecas universitárias do Brasil e divulgar indicadores quantitativos e de serviços, dando continuidade ao [projeto do semestre anterior](https://github.com/GMerencio/mapa-bibliotecas).
 
 Aplicação em funcionamento: [Mapeamento de Bibliotecas](https://mapa-bibliotecas2.herokuapp.com/)
@@ -28,6 +30,7 @@ As principais pastas e arquivos do projeto são:
 * `api`: Parte principal do back end que responde as requisições do front end.
 * `search`: Pasta contendo um script que gera um arquivo `filtros.json` na pasta `src`, utilizado para filtrar o mapa por regiões.
 * `tests-backend`: Pasta contendo os scripts de testes de conexão com o banco de dados, endpoints e outros aspectos do back end.
+* `.github/workflows/ci.yaml`: Arquivo contendo as configurações de CI através de GitHub Actions.
 
 ## Setup 
 
@@ -50,7 +53,8 @@ Após executar `npm install` e configurar o arquivo `.env`, execute `npm run sta
 
 ## Testes
 
-Execute os testes com os comandos `npm run test-react` (testes do front end) e `npm run test-backend` (testes do back end). Note que os testes do back end ficam na pasta `tests-backend`, enquanto os testes do front end ficam em `src`; em ambos os casos, os scripts de teste possuem a extensão `.test.js`.
+Execute os testes com os comandos `npm run test-react` (testes do front end) e `npm run test-API` (testes do back end). Note que os testes do back end ficam na pasta `tests-backend`, enquanto os testes do front end ficam em `src`; em ambos os casos, os scripts de teste possuem a extensão `.test.js`.
 
 ## Deploy
 
+O deploy é realizado automaticamente quando um commit é submetido ao branch `main` e o workflow especificado no script `.github/workflows/ci.yaml` é bem-sucedido. O script roda os comandos de testes do front end e back end; se os testes forem executados corretamente, será realizado o deploy da aplicação no Heroku.
