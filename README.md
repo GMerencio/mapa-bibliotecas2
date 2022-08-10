@@ -52,5 +52,5 @@ Após executar `npm install` e configurar o arquivo `.env`, execute `npm run sta
 
 Execute os testes com os comandos `npm run test-react` (testes do front end) e `npm run test-backend` (testes do back end). Note que os testes do back end ficam na pasta `tests-backend`, enquanto os testes do front end ficam em `src`; em ambos os casos, os scripts de teste possuem a extensão `.test.js`.
 
-## Deploy (Heroku)
+## Deploy
 
