@@ -6,7 +6,7 @@ Aplicação em funcionamento: [Mapeamento de Bibliotecas](https://mapa-bibliotec
 
 ## Tecnologias
 
-As principais tecnologias usadas no projeto são:
+As principais tecnologias utilizadas no projeto são:
 
 * [React](https://reactjs.org/)
 * [Leaflet](https://leafletjs.com/) (através do [React Leaflet](https://react-leaflet.js.org/))
