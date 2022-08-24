@@ -4,10 +4,12 @@ em uma página. */
 import React from "react";
 import Fab from '@mui/material/Fab';
 import HelpIcon from '@mui/icons-material/Help';
+
 import { Mapa } from "../Mapa";
 import { MenuMapa } from "../MenuMapa";
 import { MenuBusca } from "../MenuBusca";
 import { TutorialDialog } from "../TutorialDialog";
+import { MenuNavegacao } from "../MenuNavegacao";
 
 export class PaginaMapa extends React.Component {
   constructor() {
@@ -40,6 +42,7 @@ export class PaginaMapa extends React.Component {
   render() {
     return (
       <div>
+      	<MenuNavegacao currentPage='mapa' />
       	<TutorialDialog
       	 open={this.state.openTutorial}
       	 onClose={this.closeTutorial}
