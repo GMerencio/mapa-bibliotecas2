@@ -12,7 +12,7 @@ export class Painel extends React.Component {
     		<Box textAlign="center">
     			<iframe
        		 	title="Painel de dados fornecido pelo Metabase"
-       		 	src="http://metabase-instance.herokuapp.com/public/dashboard/6fdd4a48-5d4b-48a6-917a-64a3043feac0"
+       		 	src="https://metabase-instance.herokuapp.com/public/dashboard/6fdd4a48-5d4b-48a6-917a-64a3043feac0"
        		 	frameBorder="0"
        		 	width="800"
        		 	height="600"
