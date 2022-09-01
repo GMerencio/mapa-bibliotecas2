@@ -53,7 +53,8 @@ export class PaginaMapa extends React.Component {
       	 onClick={this.openTutorial}
       	 sx={{
       	 	position: "fixed",
-      	 	right: 0
+      	 	right: 0,
+      	 	top: '10vw',
       	 }}
       	>
         	<HelpIcon />

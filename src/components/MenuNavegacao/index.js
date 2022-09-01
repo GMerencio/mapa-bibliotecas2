@@ -47,7 +47,8 @@ export class MenuNavegacao extends React.Component {
       	 	 onClick={this.openDrawer}
       	 	 sx={{
       	 		position: "fixed",
-      	 		left: 0
+      	 		left: 0,
+      	 		top: '10vw',
       	 	 }}
       		>
         		<MenuIcon />
