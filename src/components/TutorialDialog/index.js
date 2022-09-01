@@ -71,6 +71,11 @@ export class TutorialDialog extends React.Component {
     				a seleção), Enter (para confirmar a seleção),
     				Shift + Tab (para retornar a seleção) e Esc (para
     				fechar menus).
+    				
+    				<br /> <br />
+    				O botão ao lado esquerdo abre um menu de navegação
+    				que te permite ir ao painel de dados e à
+    				documentação da API.
     			</DialogContentText>
     		</DialogContent>
     		
