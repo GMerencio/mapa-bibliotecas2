@@ -31,6 +31,7 @@ As principais pastas e arquivos do projeto são:
 * `search`: Pasta contendo um script que gera um arquivo `filtros.json` na pasta `src`, utilizado para filtrar o mapa por regiões.
 * `tests-backend`: Pasta contendo os scripts de testes de conexão com o banco de dados, endpoints e outros aspectos do back end.
 * `.github/workflows/ci.yaml`: Arquivo contendo as configurações de CI através de GitHub Actions.
+* `docs`: Arquivos referentes à documentação da API gerada pelo [Swagger](https://swagger.io/) (através do pacote [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express)). O arquivo `index.js` importa os demais arquivos, `servers.js` especifica os servidores (locais e remotos) da API, `basicInfo.js` contém as informações básicas da API, `components.js` descreve os esquemas/modelos utilizados pela API e a pasta `ies` descreve cada um dos endpoints.
 
 ## Setup 
 
