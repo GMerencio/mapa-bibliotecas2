@@ -4,10 +4,12 @@ estáticos do React no ambiente de produção. */
 // Importações
 const path = require('path');
 const express = require('express');
+const swaggerUI = require("swagger-ui-express");
 
 // Importações (arquivos locais)
 const iesRoute = require("./api/ies");
 const dbo = require('./db-connection');
+const docs = require('./docs');
 
 // Inicialização
 const app = express();
@@ -22,6 +24,7 @@ app.use(express.urlencoded({ extended: true}))
 
 // Rotas da aplicação
 app.use("/api/ies", iesRoute);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(docs));
 
 /* Handler para quando as rotas acima não suportarem uma requisição;
 redirecionar para o front end. */

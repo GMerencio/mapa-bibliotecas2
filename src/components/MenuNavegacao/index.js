@@ -88,6 +88,13 @@ export class MenuNavegacao extends React.Component {
         	>
           		<ListItemText primary="Painel" />
         	</ListItemButton>
+        	
+        	<ListItemButton
+        	 component="a"
+        	 href="/api-docs"
+        	>
+          		<ListItemText primary="API (documentação)" />
+        	</ListItemButton>
       	</List>
     );
   }
