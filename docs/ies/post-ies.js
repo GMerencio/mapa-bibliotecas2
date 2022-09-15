@@ -1,5 +1,6 @@
 module.exports = {
   post: {
+  	tags: ["Endpoints"],
     description: "Retorna, em JSON, os registros das IES correspondentes aos filtros de busca especificados no corpo da requisição.",
     operationId: "postIes",
     parameters: [],

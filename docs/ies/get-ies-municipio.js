@@ -1,6 +1,7 @@
 module.exports = {
   get: {
-    description: "Retorna, em JSON, os registros das IES situadas no município correspondente ao código especificado. Este endpoint é primariamente utilizado internamente pela aplicação, então, caso não saiba o código do estado, utilize o endpoint /api/ies, especificando o estado como parâmetro.",
+  	tags: ["Endpoints"],
+    description: "Retorna, em JSON, os registros das IES situadas no município correspondente ao código especificado. Este endpoint é primariamente utilizado internamente pela aplicação, então, caso não saiba o código do estado, utilize o endpoint POST /api/ies, especificando o estado no corpo da requisição.",
     operationId: "getIesMunicipio",
     parameters: [
       {

@@ -1,5 +1,6 @@
 module.exports = {
   get: {
+  	tags: ["Endpoints"],
     description: "Retorna, em JSON, o registro referente ao código MEC da instituição.",
     operationId: "getIes",
     parameters: [
