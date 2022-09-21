@@ -60,7 +60,7 @@ export class MenuNavegacao extends React.Component {
   			 sx={{
   			 	'& .MuiDrawer-paper': {
   			 		padding: '1rem',
-  			 		width: '20vw',
+  			 		width: '30vw',
   			 	},
   			 }}
   			>
