@@ -22,9 +22,15 @@ app.set('port', process.env.PORT || 5000);
 app.use(express.json())
 app.use(express.urlencoded({ extended: true}))
 
+// Configurações do Swagger
+app.use(express.static('custom-swagger'));
+const swaggerOptions = {
+  customJs: '/customSwagger.js'
+};
+
 // Rotas da aplicação
 app.use("/api/ies", iesRoute);
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(docs));
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(docs, swaggerOptions));
 
 /* Handler para quando as rotas acima não suportarem uma requisição;
 redirecionar para o front end. */
