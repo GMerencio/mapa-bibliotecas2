@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true}))
 // Configurações do Swagger
 app.use(express.static('custom-swagger'));
 const swaggerOptions = {
-  customJs: '/customSwagger.js'
+  customCssUrl: '/custom-swagger.css'
 };
 
 // Rotas da aplicação

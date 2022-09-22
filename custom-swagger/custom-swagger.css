@@ -1,0 +1,20 @@
+/* Arquivo de customização da página gerada pelo Swagger. */
+
+.servers-title, th.parameters-col_name, th.parameters-col_description {
+	visibility: hidden;
+}
+
+.servers-title::before {
+	visibility: visible;
+	content: "Servidores";
+}
+
+th.parameters-col_name::before {
+	visibility: visible;
+	content: "Nome";
+}
+
+th.parameters-col_description::before {
+	visibility: visible;
+	content: "Descrição";
+}
