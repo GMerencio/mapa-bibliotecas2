@@ -197,274 +197,326 @@ module.exports = {
         				"example": 336
     				},
     				"QT_TEC_FUNDAMENTAL_INCOMP_FEM": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de funcion\u00e1rios t\u00e9cnico-administrativos do sexo feminino com ensino fundamental incompleto",
-        				"example": "TODO"
+        				"example": 5
     				},
     				"QT_TEC_FUNDAMENTAL_INCOMP_MASC": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de funcion\u00e1rios t\u00e9cnico-administrativos do sexo masculino com ensino fundamental incompleto",
-        				"example": "TODO"
+        				"example": 2
     				},
     				"QT_TEC_FUNDAMENTAL_COMP_FEM": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de funcion\u00e1rios t\u00e9cnico-administrativos do sexo feminino com ensino fundamental completo ",
-        				"example": "TODO"
+        				"example": 17
     				},
     				"QT_TEC_FUNDAMENTAL_COMP_MASC": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de funcion\u00e1rios t\u00e9cnico-administrativos do sexo masculino com ensino fundamental completo",
-        				"example": "TODO"
+        				"example": 6
     				},
     				"QT_TEC_MEDIO_FEM": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de funcion\u00e1rios t\u00e9cnico-administrativos do sexo feminino com ensino m\u00e9dio",
-        				"example": "TODO"
+        				"example": 64
     				},
     				"QT_TEC_MEDIO_MASC": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de funcion\u00e1rios t\u00e9cnico-administrativos do sexo masculino com ensino m\u00e9dio",
-        				"example": "TODO"
+        				"example": 68
     				},
     				"QT_TEC_SUPERIOR_FEM": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de funcion\u00e1rios t\u00e9cnico-administrativos do sexo feminino com n\u00edvel superior ",
-        				"example": "TODO"
+        				"example": 68
     				},
     				"QT_TEC_SUPERIOR_MASC": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de funcion\u00e1rios t\u00e9cnico-administrativos do sexo masculino com n\u00edvel superior ",
-        				"example": "TODO"
+        				"example": 34
     				},
     				"QT_TEC_ESPECIALIZACAO_FEM": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de funcion\u00e1rios t\u00e9cnico-administrativos do sexo feminino com especializa\u00e7\u00e3o",
-        				"example": "TODO"
+        				"example": 22
     				},
     				"QT_TEC_ESPECIALIZACAO_MASC": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de funcion\u00e1rios t\u00e9cnico-administrativos do sexo masculino com especializa\u00e7\u00e3o",
-        				"example": "TODO"
+        				"example": 11
     				},
     				"QT_TEC_MESTRADO_FEM": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de funcion\u00e1rios t\u00e9cnico-administrativos do sexo feminino com mestrado",
-        				"example": "TODO"
+        				"example": 17
     				},
     				"QT_TEC_MESTRADO_MASC": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de funcion\u00e1rios t\u00e9cnico-administrativos do sexo masculino com mestrado ",
-        				"example": "TODO"
+        				"example": 15
     				},
     				"QT_TEC_DOUTORADO_FEM": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de funcion\u00e1rios t\u00e9cnico-administrativos do sexo feminino com doutorado ",
-        				"example": "TODO"
+        				"example": 4
     				},
     				"QT_TEC_DOUTORADO_MASC": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de funcion\u00e1rios t\u00e9cnico-administrativos do sexo masculino com doutorado",
-        				"example": "TODO"
+        				"example": 3
     				},
     				"IN_ACESSO_PORTAL_CAPES": {
         				"type": "string",
         				"description": "Informa se as bibliotecas da IES tem acesso ao portal Capes de peri\u00f3dicos",
-        				"example": "TODO"
+        				"example": "0"
     				},
     				"IN_ACESSO_OUTRAS_BASES": {
         				"type": "string",
         				"description": "Informa se as bibliotecas da IES tem acesso a outras bases de dados licenciadas ou compradas",
-        				"example": "TODO"
+        				"example": "0"
     				},
     				"IN_ASSINA_OUTRA_BASE": {
         				"type": "string",
         				"description": "Informa se as bibliotecas da IES assina outras bases de dados licenciadas ou compradas",
-        				"example": "TODO"
+        				"example": "1"
     				},
     				"IN_REPOSITORIO_INSTITUCIONAL": {
         				"type": "string",
         				"description": "Informa se a IES possui base de dados online que re\u00fane de maneira organizada a produ\u00e7\u00e3o cient\u00edfica da institui\u00e7\u00e3o",
-        				"example": "TODO"
+        				"example": "1"
     				},
     				"IN_BUSCA_INTEGRADA": {
         				"type": "string",
         				"description": "Informa se as bibliotecas da IES oferecem servi\u00e7os pela internet",
-        				"example": "TODO"
+        				"example": "1"
     				},
     				"IN_SERVICO_INTERNET": {
         				"type": "string",
         				"description": "Informa se as bibliotecas da IES oferecem servi\u00e7os pela internet",
-        				"example": "TODO"
+        				"example": "1"
     				},
     				"IN_PARTICIPA_REDE_SOCIAL": {
         				"type": "string",
         				"description": "Informa se a biblioteca participam de Redes Sociais",
-        				"example": "TODO"
+        				"example": "0"
     				},
     				"IN_CATALOGO_ONLINE": {
         				"type": "string",
-        				"description": "Informa se a IES possui ferramenta de recupera\u00e7\u00e3o de informa\u00e7\u00e3o que permite ao usu\u00e1rio consultar de forma local ou remota a exist\u00eancia e disponibilidade de itens do acervo da(s) biblioteca(s)\n49,QT_PERIODICO_ELETRONICO,Quantidade de t\u00edtulos de peri\u00f3dicos eletr\u00f4nicos adquiridos pelas bibliotecas por meio de compra ou doa\u00e7\u00e3o ou permuta",
-        				"example": "TODO"
+        				"description": "Informa se a IES possui ferramenta de recupera\u00e7\u00e3o de informa\u00e7\u00e3o que permite ao usu\u00e1rio consultar de forma local ou remota a exist\u00eancia e disponibilidade de itens do acervo da(s) biblioteca(s)",
+        				"example": "1"
+    				},
+    				"QT_PERIODICO_ELETRONICO": {
+        				"type": "integer",
+        				"format": "int32",
+        				"description": "Quantidade de t\u00edtulos de peri\u00f3dicos eletr\u00f4nicos adquiridos pelas bibliotecas por meio de compra ou doa\u00e7\u00e3o ou permuta",
+        				"example": 44089
     				},
     				"QT_LIVRO_ELETRONICO": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de t\u00edtulos de livros eletr\u00f4nicos disponibilizados pela biblioteca convertidos ao formato digital ou originalmente produzidos nesse formato para serem lidos em computador ou outros dispositivos",
-        				"example": "TODO"
+        				"example": 44089
     				},
     				"QT_DOCENTE_TOTAL": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de total de docentes (em exerc\u00edcio e afastados)",
-        				"example": "TODO"
+        				"example": 517
     				},
     				"QT_DOCENTE_EXE": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de total de docentes em exerc\u00edcio ",
-        				"example": "TODO"
+        				"example": 517
     				},
     				"DOC_EX_FEMI": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio do sexo feminino ",
-        				"example": "TODO"
+        				"example": 298
     				},
     				"DOC_EX_MASC": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio do sexo masculino",
-        				"example": "TODO"
+        				"example": 219
     				},
     				"DOC_EX_SEM_GRAD": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio sem curso de gradua\u00e7\u00e3o",
-        				"example": "TODO"
+        				"example": 0
     				},
     				"DOC_EX_GRAD": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio com curso de gradua\u00e7\u00e3o",
-        				"example": "TODO"
+        				"example": 0
     				},
     				"DOC_EX_ESP": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio com especializa\u00e7\u00e3o",
-        				"example": "TODO"
+        				"example": 207
     				},
     				"DOC_EX_MEST": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio com mestrado ",
-        				"example": "TODO"
+        				"example": 198
     				},
     				"DOC_EX_DOUT": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio com doutorado ",
-        				"example": "TODO"
+        				"example": 112
     				},
     				"DOC_EX_INT": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio em tempo integral",
-        				"example": "TODO"
+        				"example": 165
     				},
     				"DOC_EX_INT_DE": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio em tempo integral com dedica\u00e7\u00e3o exclusiva",
-        				"example": "TODO"
+        				"example": 0
     				},
     				"DOC_EX_INT_SEM_DE": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio em tempo integral sem dedica\u00e7\u00e3o exclusiva ",
-        				"example": "TODO"
+        				"example": 165
     				},
     				"DOC_EX_PARC": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio em tempo parcial ",
-        				"example": "TODO"
+        				"example": 284
     				},
     				"DOC_EX_HOR": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio Horista",
-        				"example": "TODO"
+        				"example": 68
     				},
     				"DOC_EX_0_29": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio- at\u00e9 29 anos ",
-        				"example": "TODO"
+        				"example": 25
     				},
     				"DOC_EX_30_34": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio- de 30 a 34 anos",
-        				"example": "TODO"
+        				"example": 104
     				},
     				"DOC_EX_35_39": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio - de 35 a 39 anos",
-        				"example": "TODO"
+        				"example": 75
     				},
     				"DOC_EX_40_44": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio - de 40 a 44 anos",
-        				"example": "TODO"
+        				"example": 97
     				},
     				"DOC_EX_45_49": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio - de 45 a 49 anos",
-        				"example": "TODO"
+        				"example": 76
     				},
     				"DOC_EX_50_54": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio - de 50 a 54 anos",
-        				"example": "TODO"
+        				"example": 47
     				},
     				"DOC_EX_55_59": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio - de 55 a 59 anos",
-        				"example": "TODO"
+        				"example": 43
     				},
     				"DOC_EX_60_MAIS": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio - de 60 anos ou mais ",
-        				"example": "TODO"
+        				"example": 50
     				},
     				"DOC_EX_BRANCA": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio  - Cor/Ra\u00e7a branca",
-        				"example": "TODO"
+        				"example": 335
     				},
     				"DOC_EX_PRETA": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio  - Cor/Ra\u00e7a preta",
-        				"example": "TODO"
+        				"example": 18
     				},
     				"DOC_EX_PARDA": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio  - Cor/Ra\u00e7a parda",
-        				"example": "TODO"
+        				"example": 144
     				},
     				"DOC_EX_AMARELA": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio  - Cor/Ra\u00e7a amarela",
-        				"example": "TODO"
+        				"example": 10
     				},
     				"DOC_EX_IND\u00cdGENA": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio  - Cor/Ra\u00e7a ind\u00edgena",
-        				"example": "TODO"
+        				"example": 0
     				},
     				"DOC_EX_COR_ND": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docentes em exerc\u00edcio  - Cor/Ra\u00e7a n\u00e3o disp\u00f5e da informa\u00e7\u00e3o ou n\u00e3o declarada",
-        				"example": "TODO"
+        				"example": 10
     				},
     				"DOC_EX_BRA": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docente em exerc\u00edcio - nacionalidade brasileira ou brasileira - nascido no exterior ou naturalizado",
-        				"example": "TODO"
+        				"example": 516
     				},
     				"DOC_EX_EST": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docente em exerc\u00edcio - nacionalidade estrangeira ",
-        				"example": "TODO"
+        				"example": 1
     				},
     				"DOC_EX_COM_DEFICI\u00caNCIA": {
-        				"type": "string",
+        				"type": "integer",
+        				"format": "int32",
         				"description": "Quantidade de docente em exerc\u00edcio - com defici\u00eancia",
-        				"example": "TODO"
+        				"example": 5
     				}
 					,
 				},
