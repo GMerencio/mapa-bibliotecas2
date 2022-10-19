@@ -1,6 +1,26 @@
 /* Arquivo de customização da página gerada pelo Swagger. */
 
-.servers-title, th.parameters-col_name, th.parameters-col_description {
+.swagger-ui .parameter__name.required::after {
+	content: "obrigatório";
+}
+
+.servers-title,
+th.parameters-col_name,
+th.parameters-col_description,
+.opblock-title span,
+.try-out__btn:not(.cancel),
+.try-out__btn.cancel,
+.opblock-section-header > h4:not(.opblock-title),
+tr.responses-header > td.col_header.response-col_status,
+tr.responses-header > td.col_header.response-col_description,
+button[data-name="example"],
+.btn.execute.opblock-control__btn,
+.btn.btn-clear.opblock-control__btn,
+.request-url > h4,
+.curl-command ~ h4,
+td.response-col_description > div:first-child > h5,
+td.response-col_description > div:last-child > h5,
+h4.opblock-title.parameter__name {
 	visibility: hidden;
 }
 
@@ -17,4 +37,120 @@ th.parameters-col_name::before {
 th.parameters-col_description::before {
 	visibility: visible;
 	content: "Descrição";
+}
+
+.opblock-title span::before {
+	visibility: visible;
+	content: "Parâmetros";
+}
+
+.try-out__btn:not(.cancel)::before {
+	visibility: visible;
+	content: "Testar";
+	background: transparent;
+	border: 2px solid gray;
+	border-radius: 4px;
+	box-shadow: 0 1px 2px rgba(0,0,0,.1);
+	color: #3b4151;
+	font-family: sans-serif;
+	font-size: 14px;
+	font-weight: 700;
+	padding: 5px 23px;
+	transition: all .3s;
+}
+
+.try-out__btn.cancel::before {
+	visibility: visible;
+	content: "Cancelar";
+	background-color: transparent;
+	border-color: #ff6060;
+	color: #ff6060;
+	font-family: sans-serif;
+	background: transparent;
+	border: 2px solid gray;
+	border-radius: 4px;
+	box-shadow: 0 1px 2px rgba(0,0,0,.1);
+	font-family: sans-serif;
+	font-size: 14px;
+	font-weight: 700;
+	padding: 5px 23px;
+	transition: all .3s;
+}
+
+.opblock-section-header > h4:not(.opblock-title)::before {
+	visibility: visible;
+	content: "Respostas";
+}
+
+tr.responses-header > td.col_header.response-col_status::before {
+	visibility: visible;
+	content: "Código";
+}
+
+tr.responses-header > td.col_header.response-col_description::before {
+	visibility: visible;
+	content: "Descrição";
+}
+
+button[data-name="example"]::before {
+	visibility: visible;
+	content: "Valor de exemplo";
+}
+
+.btn.execute.opblock-control__btn::before {
+	visibility: visible;
+	content: "Executar";
+	background-color: #4990e2;
+	border-color: #4990e2;
+	color: #fff;
+	border: 2px solid gray;
+	border-radius: 4px 0 0 4px;
+	box-shadow: 0 1px 2px rgba(0,0,0,.1);
+	font-family: sans-serif;
+	font-size: 14px;
+	font-weight: 700;
+	padding: 5px 23px;
+	transition: all .3s;
+	display: block;
+}
+
+.btn.btn-clear.opblock-control__btn::before {
+	visibility: visible;
+	content: "Limpar";
+	background: transparent;
+	border: 2px solid gray;
+	border-radius: 0 4px 4px 0;
+	box-shadow: 0 1px 2px rgba(0,0,0,.1);
+	color: #3b4151;
+	font-family: sans-serif;
+	font-size: 14px;
+	font-weight: 700;
+	padding: 5px 23px;
+	transition: all .3s;
+	display: block;
+}
+
+.request-url > h4::before {
+	visibility: visible;
+	content: "URL requisitada";
+}
+
+.curl-command ~ h4::before {
+	visibility: visible;
+	content: "Resposta do servidor";
+}
+
+td.response-col_description > div:first-child > h5::before {
+	visibility: visible;
+	content: "Corpo da resposta";
+}
+
+td.response-col_description > div:last-child > h5::before {
+	visibility: visible;
+	content: "Headers da resposta";
+}
+
+h4.opblock-title.parameter__name::before {
+	visibility: visible;
+	content: "Corpo da requisição";
 }
