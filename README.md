@@ -17,7 +17,7 @@ As principais tecnologias utilizadas no projeto são:
 * [MongoDB](https://www.mongodb.com/)
 * [Jest](https://jestjs.io/) e [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) (para testes)
 
-A aplicação é hospedada pelo [Heroku](https://dashboard.heroku.com/), enquanto o banco de dados reside na plataforma do [MongoDB Atlas](https://www.mongodb.com/atlas/database). O mapa emprega o [Mapbox](https://www.mapbox.com/) como provedor de tiles.
+A aplicação é hospedada pelo [Render](https://render.com/), enquanto o banco de dados reside na plataforma do [MongoDB Atlas](https://www.mongodb.com/atlas/database). O mapa emprega o [Mapbox](https://www.mapbox.com/) como provedor de tiles.
 
 ## Estrutura do projeto
 
@@ -59,4 +59,4 @@ Execute os testes com os comandos `npm run test-react` (testes do front end) e `
 
 ## Deploy
 
-O deploy é realizado automaticamente quando um commit é submetido ao branch `main` e o workflow especificado no script `.github/workflows/ci.yaml` é bem-sucedido. O script roda os comandos de testes do front end e back end; se os testes forem executados corretamente, será realizado o deploy da aplicação no Heroku.
+O deploy é realizado automaticamente quando um commit é submetido ao branch `main` e o workflow especificado no script `.github/workflows/ci.yaml` é bem-sucedido. O script roda os comandos de testes do front end e back end; se os testes forem executados corretamente, será realizado o deploy da aplicação no Render.
